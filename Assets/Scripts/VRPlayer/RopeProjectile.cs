@@ -22,8 +22,8 @@ public class RopeProjectile : MonoBehaviour {
             return m_collider;
         }
     }
-    private RopeManager m_ropeManager;
-    public RopeManager ropeManager {
+    private RopeProjectileManager m_ropeManager;
+    public RopeProjectileManager ropeManager {
         get {
             return m_ropeManager;
         }
@@ -32,7 +32,7 @@ public class RopeProjectile : MonoBehaviour {
     private void Awake() {
         m_rb = GetComponent<Rigidbody>();
         m_collider = GetComponent<Collider>();
-        m_ropeManager = GetComponentInParent<RopeManager>();
+        m_ropeManager = GetComponentInParent<RopeProjectileManager>();
         originalLocalScale = transform.localScale;
         originalLossyScale = transform.lossyScale;
     }

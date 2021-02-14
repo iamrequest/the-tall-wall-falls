@@ -1,0 +1,103 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Valve.VR;
+using Valve.VR.InteractionSystem;
+
+/// <summary>
+/// Handles the instantiation/destruction of Spring Joints.
+/// </summary>
+public class RopeJointManager : MonoBehaviour {
+    public SteamVR_Action_Boolean pullRopeAction;
+    public SteamVR_Input_Sources inputSource;
+
+    private Rigidbody rb;
+
+    [HideInInspector]
+    public SpringJoint joint;
+
+    [Tooltip("The start transform of the rope")]
+    public Transform localAnchorTransform;
+    [Tooltip("The end transform of the rope")]
+    public Transform targetAnchorTransform;
+
+    [Tooltip("How fast the joint's max distance gets reduced each physics frame (while pullRopeAction is active)")]
+    public float ropePullSpeed;
+
+    public float spring, damper, minDistance;
+    public float extraInitialRopeDistance;
+
+    private void Awake() {
+        rb = GetComponentInParent<Rigidbody>();
+        localAnchorTransform = transform;
+    }
+
+    public void AddJoint(Rigidbody target, Transform offsetTransform) {
+        // Instantiate joint, and connect it to the target
+        joint = rb.gameObject.AddComponent<SpringJoint>();
+        targetAnchorTransform = offsetTransform;
+        joint.connectedBody = target;
+
+        // Apply joint settings
+        joint.spring = spring;
+        joint.damper = damper;
+        joint.minDistance = minDistance;
+        joint.enableCollision = true;
+        joint.autoConfigureConnectedAnchor = false;
+
+        joint.maxDistance = (targetAnchorTransform.position - localAnchorTransform.position).magnitude + extraInitialRopeDistance;
+    }
+
+    public void DestroyJoint() {
+        Destroy(joint);
+        targetAnchorTransform = null;
+    }
+
+    private void UpdateAnchors() {
+
+        // Update the remote anchor
+        if (targetAnchorTransform != null) {
+            joint.connectedAnchor = GetJointOffset(joint.connectedBody, targetAnchorTransform);
+        } else {
+            joint.connectedAnchor = Vector3.zero;
+        }
+
+        // Update the local anchor
+        if (localAnchorTransform != null) {
+            joint.anchor = GetJointOffset(rb, localAnchorTransform);
+        } else {
+            joint.anchor = Vector3.zero;
+        }
+    }
+
+    /// <summary>
+    /// TODO: Not taking rotation of the rigidbody into account
+    /// </summary>
+    /// <param name="rb"></param>
+    /// <param name="offsetTransform"></param>
+    /// <returns></returns>
+    private Vector3 GetJointOffset(Rigidbody rb, Transform offsetTransform) {
+        // Need to divide by the scale of the target, since the spring joint multiplies the connected anchor by the connected body's scale to find the target position.
+        // In other words, I want to convert my local offset from rb to transform, into joint space
+        Vector3 tmpAnchor = (offsetTransform.position - rb.position);
+        tmpAnchor.x /= rb.transform.lossyScale.x;
+        tmpAnchor.y /= rb.transform.lossyScale.y;
+        tmpAnchor.z /= rb.transform.lossyScale.z;
+
+        return tmpAnchor;
+    }
+
+    private void FixedUpdate() {
+        if (joint != null) {
+            if (pullRopeAction.GetStateDown(inputSource)) {
+                joint.maxDistance -= (ropePullSpeed * Time.fixedDeltaTime);
+
+                // This is required, otherwise the rigidbody won't produce any motion until the rigidbody recieves motion from some other source (collision, player input, etc)
+                rb.WakeUp();
+            }
+
+            // TODO: Update max distance
+            UpdateAnchors();
+        }
+    }
+}

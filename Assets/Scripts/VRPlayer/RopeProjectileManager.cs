@@ -10,13 +10,11 @@ using Valve.VR.InteractionSystem;
 ///
 /// TODO: Fix the projectile so that its scale stays the same after un-parenting it from this transform
 /// </summary>
-public class RopeManager : MonoBehaviour {
-    private Rigidbody rb;
-
-    [Header("Projectile Management")]
+public class RopeProjectileManager : MonoBehaviour {
     public SteamVR_Action_Boolean fireRopeAction;
     public SteamVR_Input_Sources inputSource;
     public RopeProjectile ropeProjectile;
+    private RopeJointManager ropeJointManager;
 
     public RopeProjectileState ropeProjectileState = RopeProjectileState.UNFIRED;
 
@@ -28,16 +26,8 @@ public class RopeManager : MonoBehaviour {
     private Quaternion initialReturnRotation;
     public float elapsedReturnTime, elapsedFiredTime;
 
-    [Header("Joint Management")]
-    [Tooltip("The start transform of the rope")]
-    public Transform localAnchorTransform;
-    [Tooltip("The end transform of the rope")]
-    public Transform targetAnchorTransform;
-    private SpringJoint joint;
-
-
     private void Awake() {
-        rb = GetComponentInParent<Rigidbody>();
+        ropeJointManager = GetComponent<RopeJointManager>();
     }
 
     private void OnEnable() {
@@ -49,6 +39,9 @@ public class RopeManager : MonoBehaviour {
         fireRopeAction.RemoveOnStateDownListener(ShootProjectile, inputSource);
         fireRopeAction.RemoveOnStateUpListener(ReturnProjectile, inputSource);
     }
+
+
+
 
     /// <summary>
     /// Fires the rope projectile in the direction of transform.forward.
@@ -88,11 +81,16 @@ public class RopeManager : MonoBehaviour {
             initialReturnRotation = ropeProjectile.transform.rotation;
 
             ropeProjectile.Detach();
+            ropeJointManager.DestroyJoint();
         }
     }
 
     public void OnProjectileConnected() {
-        ropeProjectileState = RopeProjectileState.ATTACHED;
+        if (ropeProjectile.transform.parent.TryGetComponent(out Rigidbody targetRB)) {
+            ropeProjectileState = RopeProjectileState.ATTACHED;
+
+            ropeJointManager.AddJoint(targetRB, ropeProjectile.transform);
+        }
     }
 
     private void FixedUpdate() {

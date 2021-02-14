@@ -369,17 +369,51 @@ PrefabInstance:
     - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1770253777}
+      objectReference: {fileID: 1075019322}
     - target: {fileID: 3380982, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1761296347}
+      objectReference: {fileID: 1731926433}
     - target: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
+--- !u!21 &1075019322
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1197433888
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +462,7 @@ GameObject:
   - component: {fileID: 1287052200}
   - component: {fileID: 1287052199}
   - component: {fileID: 1287052198}
+  - component: {fileID: 1287052201}
   m_Layer: 8
   m_Name: Rope Manager
   m_TagString: Untagged
@@ -466,12 +501,13 @@ MonoBehaviour:
     actionPath: /actions/default/in/FireRopeProjectile
     needsReinit: 0
   inputSource: 1
-  ropeProjectileState: 0
-  localAnchorTransform: {fileID: 1287052197}
-  targetAnchorTransform: {fileID: 0}
   ropeProjectile: {fileID: 1721469480}
-  projectileDistance: 2
-  projectileFireTime: 1
+  ropeProjectileState: 0
+  maxProjectileDistance: 6.06
+  projectileFireDuration: 0.27
+  projectileReturnDuration: 0.19
+  elapsedReturnTime: 0
+  elapsedFiredTime: 0
 --- !u!23 &1287052199
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -519,6 +555,30 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1287052196}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1287052201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287052196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14dd9570723275b40bd60ac2d11962c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pullRopeAction:
+    actionPath: /actions/default/in/GrabGrip
+    needsReinit: 0
+  inputSource: 1
+  joint: {fileID: 0}
+  localAnchorTransform: {fileID: 0}
+  targetAnchorTransform: {fileID: 0}
+  ropePullSpeed: 1
+  spring: 0
+  damper: 1
+  minDistance: 0.01
+  extraInitialRopeDistance: 0
 --- !u!1 &1488792918 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2,
@@ -1132,7 +1192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b371d6f7c2c274b41a9d1f870c348624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!43 &1761296347
+  originalLocalScale: {x: 0, y: 0, z: 0}
+  originalLossyScale: {x: 0, y: 0, z: 0}
+--- !u!43 &1731926433
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1295,40 +1357,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!21 &1770253777
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1945149109
 GameObject:
   m_ObjectHideFlags: 0
