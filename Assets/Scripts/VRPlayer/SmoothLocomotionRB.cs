@@ -20,7 +20,9 @@ public class SmoothLocomotionRB : MonoBehaviour {
     [Range(0f, 10f)]
     public float onGroundMoveSpeed, inAirMoveSpeed;
 
-    private int groundCount;
+    public PhysicMaterial highFrictionMat, lowFrictionMat;
+
+    public int groundCount;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -40,12 +42,16 @@ public class SmoothLocomotionRB : MonoBehaviour {
         return input;
     }
 
-    private void UpdateMotion(float moveSpeed) {
-        // Remove the last frame's velocity
-        Vector3 motion = -rb.velocity;
+    private void UpdateMotion(float moveSpeed, bool overwritePreviousVelocity) {
+        Vector3 motion;
 
-        // Likely unnecessary?
-        motion.y = 0f;
+        // Remove the last frame's velocity. Useful for grounded locomotion, for snappier motion
+        if (overwritePreviousVelocity) {
+            motion = -rb.velocity;
+            motion.y = 0f;
+        } else {
+            motion = Vector3.zero;
+        }
 
         // Apply player input
         motion += GetInput() * moveSpeed;
@@ -68,21 +74,27 @@ public class SmoothLocomotionRB : MonoBehaviour {
 
         if (smoothLocomotionAction.axis.sqrMagnitude > 0f) {
             // -- Player is applying motion
-            // TODO: Set physics mat
+            bodyCollider.material = lowFrictionMat;
 
             // Determine the player's move speed, based on whether or not they're touching ground (or walls)
             if (groundCount > 0) {
-                UpdateMotion(onGroundMoveSpeed);
+                UpdateMotion(onGroundMoveSpeed, true);
             } else {
-                // TODO: This likely won't work, since I'm removing the old velocity
-                UpdateMotion(inAirMoveSpeed);
+                UpdateMotion(inAirMoveSpeed, false);
             }
         } else {
             // -- Player isn't applying input
-
             if (groundCount > 0) {
-                // TODO: Set physics mat
+                bodyCollider.material = highFrictionMat;
             }
         }
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        groundCount++;
+    }
+
+    private void OnCollisionExit(Collision collision) {
+        groundCount--;
     }
 }
