@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.brackysgamejam2021.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "D:\\My Files\\documents\\unity\\brackys-gamejam-2021\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "brackys-gamejam-2021 [Testing]"
+        }
+      }
+    }
+  ]
+}
