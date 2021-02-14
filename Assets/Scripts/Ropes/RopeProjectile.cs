@@ -7,9 +7,6 @@ using UnityEngine;
 /// Assumption: The rope manager component exists in the parent gameobject
 /// </summary>
 public class RopeProjectile : MonoBehaviour {
-    [HideInInspector]
-    public Vector3 originalLocalScale, originalLossyScale;
-
     private Rigidbody m_rb;
     public Rigidbody rb {
         get {
@@ -33,8 +30,6 @@ public class RopeProjectile : MonoBehaviour {
         m_rb = GetComponent<Rigidbody>();
         m_collider = GetComponent<Collider>();
         m_ropeManager = GetComponentInParent<RopeProjectileManager>();
-        originalLocalScale = transform.localScale;
-        originalLossyScale = transform.lossyScale;
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -52,6 +47,12 @@ public class RopeProjectile : MonoBehaviour {
         // Parent to the collider
         transform.parent = target;
 
+        Vector3 tmp;
+        tmp.x = 1 / transform.parent.lossyScale.x;
+        tmp.y = 1 / transform.parent.lossyScale.y;
+        tmp.z = 1 / transform.parent.lossyScale.z;
+        transform.localScale = tmp;
+
         // Stop all motion
         rb.isKinematic = true;
         rb.velocity = Vector3.zero;
@@ -60,8 +61,8 @@ public class RopeProjectile : MonoBehaviour {
     }
 
     public void Detach() {
-        transform.localScale = originalLocalScale;
         transform.parent = null;
+        transform.localScale = Vector3.one;
 
         rb.isKinematic = true;
         rb.velocity = Vector3.zero;

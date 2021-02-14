@@ -13,8 +13,10 @@ using Valve.VR.InteractionSystem;
 public class RopeProjectileManager : MonoBehaviour {
     public SteamVR_Action_Boolean fireRopeAction;
     public SteamVR_Input_Sources inputSource;
+
     public RopeProjectile ropeProjectile;
     private RopeJointManager ropeJointManager;
+    private RopeRenderer ropeRenderer;
 
     public RopeProjectileState ropeProjectileState = RopeProjectileState.UNFIRED;
 
@@ -28,6 +30,7 @@ public class RopeProjectileManager : MonoBehaviour {
 
     private void Awake() {
         ropeJointManager = GetComponent<RopeJointManager>();
+        ropeRenderer = GetComponentInChildren<RopeRenderer>();
     }
 
     private void OnEnable() {
@@ -57,7 +60,7 @@ public class RopeProjectileManager : MonoBehaviour {
 
         // Un-parent the projectile's transform
         ropeProjectile.transform.parent = null;
-        ropeProjectile.transform.localScale = ropeProjectile.originalLossyScale;
+        ropeProjectile.transform.localScale = Vector3.one;
 
         // Add force to the projectile
         // Optional: Add the player's rb velocity too
@@ -93,6 +96,15 @@ public class RopeProjectileManager : MonoBehaviour {
         }
     }
 
+    private void Update() {
+        if (ropeProjectileState == RopeProjectileState.FIRED) {
+            // TODO: Fix the lerp here so that it only goes from 0->0.5. On connect, go from 0.5->1
+            ropeRenderer.offsetTime = elapsedFiredTime / projectileFireDuration;
+        } else {
+            ropeRenderer.offsetTime = 0f;
+        }
+    }
+
     private void FixedUpdate() {
         if (ropeProjectileState == RopeProjectileState.FIRED) {
             // If the projectile has been fired for long enough, then start lerping it back to this transform
@@ -117,7 +129,6 @@ public class RopeProjectileManager : MonoBehaviour {
                 ropeProjectile.transform.parent = transform;
                 ropeProjectile.transform.position = transform.position;
                 ropeProjectile.transform.rotation = transform.rotation;
-                ropeProjectile.transform.localScale = ropeProjectile.originalLocalScale;
             }
         }
     }
