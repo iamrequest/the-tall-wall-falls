@@ -17,7 +17,6 @@ public class VoidEventChannel : ScriptableObject {
 
     public void RaiseEvent() {
         if (onEventRaised != null) {
-            Debug.Log(name + " is invoking");
             onEventRaised.Invoke();
         }
 
