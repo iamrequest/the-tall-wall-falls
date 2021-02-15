@@ -100,6 +100,9 @@ public class RopeProjectileManager : MonoBehaviour {
         if (ropeProjectileState == RopeProjectileState.FIRED) {
             // TODO: Fix the lerp here so that it only goes from 0->0.5. On connect, go from 0.5->1
             ropeRenderer.offsetTime = elapsedFiredTime / projectileFireDuration;
+
+            // Lerp the rope color based on how far we are from the max distance.
+            ropeRenderer.ropeColorT = (ropeRenderer.transform.position - ropeProjectile.transform.position).magnitude / maxProjectileDistance;
         } else {
             ropeRenderer.offsetTime = 0f;
         }

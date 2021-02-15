@@ -70,19 +70,15 @@ public class RopeJointManager : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// TODO: Not taking rotation of the rigidbody into account
-    /// </summary>
-    /// <param name="rb"></param>
-    /// <param name="offsetTransform"></param>
-    /// <returns></returns>
     private Vector3 GetJointOffset(Rigidbody rb, Transform offsetTransform) {
         // Need to divide by the scale of the target, since the spring joint multiplies the connected anchor by the connected body's scale to find the target position.
         // In other words, I want to convert my local offset from rb to transform, into joint space
-        Vector3 tmpAnchor = (offsetTransform.position - rb.position);
-        tmpAnchor.x /= rb.transform.lossyScale.x;
-        tmpAnchor.y /= rb.transform.lossyScale.y;
-        tmpAnchor.z /= rb.transform.lossyScale.z;
+        Vector3 tmpAnchor = Quaternion.Inverse(rb.rotation) * (offsetTransform.position - rb.position);
+        Vector3 offsetVector = rb.transform.lossyScale;
+
+        tmpAnchor.x /= offsetVector.x;
+        tmpAnchor.y /= offsetVector.y;
+        tmpAnchor.z /= offsetVector.z;
 
         return tmpAnchor;
     }

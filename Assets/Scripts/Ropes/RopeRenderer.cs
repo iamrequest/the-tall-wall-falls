@@ -7,8 +7,6 @@ using Freya;
 [RequireComponent(typeof(Polyline))]
 [RequireComponent(typeof(BezierSpline))]
 public class RopeRenderer : MonoBehaviour {
-    private RopeProjectileManager ropeProjectileManager;
-
     public Transform projectile;
     private Polyline polyline;
     private BezierSpline bezierSpline;
@@ -20,6 +18,8 @@ public class RopeRenderer : MonoBehaviour {
     [Range(0f, 2f)]
     public float ropeThickness = .1f;
     public Gradient ropeColor;
+    [Range(0f, 1f)]
+    public float ropeColorT;
 
 
     [Header("Spline Offset")]
@@ -36,7 +36,6 @@ public class RopeRenderer : MonoBehaviour {
 
 
     private void Awake() {
-        ropeProjectileManager = GetComponentInParent<RopeProjectileManager>();
         polyline = GetComponent<Polyline>();
         bezierSpline = GetComponent<BezierSpline>();
     }
@@ -54,12 +53,10 @@ public class RopeRenderer : MonoBehaviour {
     private void Update() {
         UpdateControlPoints();
         UpdatePolyline();
-
-        // Lerp the rope color based on how far we are from the max distance.
-        polyline.Color = ropeColor.Evaluate((transform.position - projectile.transform.position).magnitude 
-            / ropeProjectileManager.maxProjectileDistance);
+        polyline.Color = ropeColor.Evaluate(ropeColorT);
     }
 
+    // TODO: Is jitter related to offset time being a thing?
     private void UpdateControlPoints() {
         // Find our basis vector
         Vector3 forward = Quaternion.Inverse(transform.rotation) * (projectile.position - transform.position);

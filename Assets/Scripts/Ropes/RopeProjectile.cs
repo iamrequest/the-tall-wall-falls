@@ -47,6 +47,7 @@ public class RopeProjectile : MonoBehaviour {
         // Parent to the collider
         transform.parent = target;
 
+        // TODO: This calculation is wrong
         Vector3 tmp;
         tmp.x = 1 / transform.parent.lossyScale.x;
         tmp.y = 1 / transform.parent.lossyScale.y;
