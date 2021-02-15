@@ -100,12 +100,11 @@ public class RopeProjectileManager : MonoBehaviour {
         if (ropeProjectileState == RopeProjectileState.FIRED) {
             // TODO: Fix the lerp here so that it only goes from 0->0.5. On connect, go from 0.5->1
             ropeRenderer.offsetTime = elapsedFiredTime / projectileFireDuration;
-
-            // Lerp the rope color based on how far we are from the max distance.
-            ropeRenderer.ropeColorT = (ropeRenderer.transform.position - ropeProjectile.transform.position).magnitude / maxProjectileDistance;
         } else {
             ropeRenderer.offsetTime = 0f;
         }
+
+        SetRopeColor();
     }
 
     private void FixedUpdate() {
@@ -133,6 +132,15 @@ public class RopeProjectileManager : MonoBehaviour {
                 ropeProjectile.transform.position = transform.position;
                 ropeProjectile.transform.rotation = transform.rotation;
             }
+        }
+    }
+
+    private void SetRopeColor() {
+        if (ropeProjectileState != RopeProjectileState.UNFIRED) {
+            // Lerp the rope color based on rope tension.
+            // If a joint exists, then the max distance would be the joint's max distance. Otherwise, just use the max distance that we can shoot a projectile
+            ropeRenderer.ropeColorT = (ropeRenderer.transform.position - ropeProjectile.transform.position).magnitude / 
+                (ropeJointManager.joint != null ? ropeJointManager.joint.maxDistance : maxProjectileDistance);
         }
     }
 }
