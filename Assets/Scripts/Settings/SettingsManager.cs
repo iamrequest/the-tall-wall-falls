@@ -13,6 +13,7 @@ public class SettingsManager : MonoBehaviour {
     public VoidEventChannel vignetteChangedChannel;
     public VoidEventChannel speedLinesChangedChannel;
     public SliderEventChannel swordAngleChangedChannel;
+    public SliderEventChannel grappleAngleChangedChannel;
 
     [Header("GUI")]
     public Sprite spriteEnabled;
@@ -33,8 +34,14 @@ public class SettingsManager : MonoBehaviour {
     public SettingsMenuSlider swordAngleSlider;
     public float swordAngleScaled { get; private set; }
 
+    // -- GrappleAngle
+    public TextMeshProUGUI grappleAngleText;
+    public SettingsMenuSlider grappleAngleSlider;
+    public float grappleAngleScaled { get; private set; }
+
     private void Start() {
         swordAngleSlider.ResetSlider();
+        grappleAngleSlider.ResetSlider();
         UpdateGUI();
     }
 
@@ -43,6 +50,7 @@ public class SettingsManager : MonoBehaviour {
         vignetteChangedChannel.onEventRaised += ToggleVignette;
         speedLinesChangedChannel.onEventRaised += ToggleSpeedLines;
         swordAngleChangedChannel.onEventRaised += GetSwordAngle;
+        grappleAngleChangedChannel.onEventRaised += GetGrappleAngle;
     }
 
     private void OnDisable() {
@@ -50,6 +58,7 @@ public class SettingsManager : MonoBehaviour {
         vignetteChangedChannel.onEventRaised -= ToggleVignette;
         speedLinesChangedChannel.onEventRaised -= ToggleSpeedLines;
         swordAngleChangedChannel.onEventRaised -= GetSwordAngle;
+        grappleAngleChangedChannel.onEventRaised -= GetGrappleAngle;
     }
 
     public void UpdateGUI() {
@@ -73,6 +82,9 @@ public class SettingsManager : MonoBehaviour {
 
         // -- Sword angle
         swordAngleText.text = "Sword Angle: " + swordAngleScaled.ToString("F0");
+
+        // -- Grapple angle
+        grappleAngleText.text = "Grapple Angle: " + grappleAngleScaled.ToString("F0");
     }
 
 
@@ -86,5 +98,8 @@ public class SettingsManager : MonoBehaviour {
     }
     public void GetSwordAngle(float t, float scaledAngle) {
         swordAngleScaled = scaledAngle;
+    }
+    public void GetGrappleAngle(float t, float scaledAngle) {
+        grappleAngleScaled = scaledAngle;
     }
 }

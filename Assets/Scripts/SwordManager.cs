@@ -44,7 +44,8 @@ public class SwordManager : MonoBehaviour
         swordBlade.SetActive(isSwordEnabled);
         swordBladeBroken.SetActive(isSwordEnabled);
         swordHandle.SetActive(isSwordEnabled);
-        ropeProjectileManager.gameObject.SetActive(isSwordEnabled);
+
+        ropeProjectileManager.enabled = isSwordEnabled;
 
         settingsMenuInteractor.SetActive(!isSwordEnabled);
     }
