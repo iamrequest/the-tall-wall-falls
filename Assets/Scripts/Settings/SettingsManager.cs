@@ -4,6 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles the actual propogation of settings data
+/// </summary>
 public class SettingsManager : MonoBehaviour {
     [Header("Channels")]
     public VoidEventChannel settingsUpdatedChannel;
@@ -13,16 +16,15 @@ public class SettingsManager : MonoBehaviour {
     public Sprite spriteEnabled;
     public Sprite spriteDisabled;
 
+    // -- Vignette
     public TextMeshProUGUI vignetteEnabledText;
     public Image vignetteEnabledImage;
     private bool vignetteEnabled = true;
 
+    // -- Speed lines
     public TextMeshProUGUI speedLinesEnabledText;
     public Image speedLinesEnabledImage;
     private bool speedLinesEnabled = true;
-
-    //[Range(0f, 1f)]
-    //public float vignetteStrength;
 
     private void Awake() {
         UpdateGUI();
@@ -32,6 +34,7 @@ public class SettingsManager : MonoBehaviour {
         settingsUpdatedChannel.onEventRaised += UpdateGUI;
         vignetteChangedChannel.onEventRaised += ToggleVignette;
     }
+
     private void OnDisable() {
         settingsUpdatedChannel.onEventRaised -= UpdateGUI;
         vignetteChangedChannel.onEventRaised -= ToggleVignette;
