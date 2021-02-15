@@ -353,8 +353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fa844fc217f5a4db721233f31914a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsMenuOpenedChannel: {fileID: 11400000, guid: de213238d34d9d344884110062ad3af9,
-    type: 2}
   fireRopeAction:
     actionPath: /actions/default/in/FireRopeProjectile
     needsReinit: 0
@@ -492,6 +490,7 @@ MonoBehaviour:
   swordBlade: {fileID: 2271229325352761043}
   swordBladeBroken: {fileID: 1228669505646611851}
   swordHandle: {fileID: 7222901909844408401}
+  settingsMenuInteractor: {fileID: 0}
 --- !u!65 &916774191
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -530,7 +529,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f4d91ec9d81669349aae72abc9295d53,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2588191
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f4d91ec9d81669349aae72abc9295d53,
         type: 3}
@@ -545,7 +544,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f4d91ec9d81669349aae72abc9295d53,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9659258
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f4d91ec9d81669349aae72abc9295d53,
         type: 3}
