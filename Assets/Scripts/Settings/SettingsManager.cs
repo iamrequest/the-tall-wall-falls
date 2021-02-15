@@ -33,7 +33,8 @@ public class SettingsManager : MonoBehaviour {
     public SettingsMenuSlider swordAngleSlider;
     public float swordAngleScaled { get; private set; }
 
-    private void Awake() {
+    private void Start() {
+        swordAngleSlider.ResetSlider();
         UpdateGUI();
     }
 
@@ -71,7 +72,6 @@ public class SettingsManager : MonoBehaviour {
         }
 
         // -- Sword angle
-        // TODO: Format
         swordAngleText.text = "Sword Angle: " + swordAngleScaled.ToString("F0");
     }
 

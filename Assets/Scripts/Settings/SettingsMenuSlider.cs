@@ -10,8 +10,9 @@ public class SettingsMenuSlider : MonoBehaviour {
 
     //private LinearDrive linearDrive;
     public Transform startTransform, endTransform;
-    public float minValue, maxValue;
+    public float minValue, maxValue, initialValue;
     public float t;
+
 
     private void OnDrawGizmosSelected() {
         Gizmos.DrawWireSphere(startTransform.position, .05f);
@@ -44,5 +45,16 @@ public class SettingsMenuSlider : MonoBehaviour {
 
     public void SendUpdatesToEventChannel() {
         sliderEventChannel.RaiseEvent(t, GetScaledValue());
+    }
+
+    public void ResetSlider() {
+        if (interactor == null) {
+            t = Mathf.Clamp01(Mathf.InverseLerp(minValue, maxValue, initialValue));
+
+            // Lerp to the desired spot, since the projected hand position can exist outside of the bounds of the two target transforms
+            transform.position = Vector3.Lerp(startTransform.position, endTransform.position, t);
+
+            SendUpdatesToEventChannel();
+        }
     }
 }
