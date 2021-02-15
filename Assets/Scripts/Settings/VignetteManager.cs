@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 /// <summary>
-/// TODO: Hook up to settings
+/// Displays a simple Post-Processing vignette, with intensity relative to rb speed
 /// </summary>
 public class VignetteManager : MonoBehaviour {
     public bool vignetteEnabled;

@@ -17,6 +17,10 @@ public class SettingsManager : MonoBehaviour {
     public Image vignetteEnabledImage;
     private bool vignetteEnabled = true;
 
+    public TextMeshProUGUI speedLinesEnabledText;
+    public Image speedLinesEnabledImage;
+    private bool speedLinesEnabled = true;
+
     //[Range(0f, 1f)]
     //public float vignetteStrength;
 
@@ -34,12 +38,22 @@ public class SettingsManager : MonoBehaviour {
     }
 
     public void UpdateGUI() {
+        // -- Vignette
         if (vignetteEnabled) {
             vignetteEnabledText.text = "Vignette: Enabled";
             vignetteEnabledImage.sprite = spriteEnabled;
         } else {
             vignetteEnabledText.text = "Vignette: Disabled";
             vignetteEnabledImage.sprite = spriteDisabled;
+        }
+
+        // -- Speed lines
+        if (speedLinesEnabled) {
+            speedLinesEnabledText.text = "Speed Lines: Enabled";
+            speedLinesEnabledImage.sprite = spriteEnabled;
+        } else {
+            speedLinesEnabledText.text = "Speed Lines: Disabled";
+            speedLinesEnabledImage.sprite = spriteDisabled;
         }
     }
 
