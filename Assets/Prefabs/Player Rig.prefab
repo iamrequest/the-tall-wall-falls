@@ -297,13 +297,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76566ea286264ef4e84e62393bc4018b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vignetteEnabled: 1
-  settingsUpdatedChannel: {fileID: 11400000, guid: cee3a6608771c044c8db16f37216114b,
+  vignetteEnabledEventChannel: {fileID: 11400000, guid: cee3a6608771c044c8db16f37216114b,
     type: 2}
+  vignetteIntensityChangedEventChannel: {fileID: 11400000, guid: f81fdbe9000ddc244b88adaa7a7e9edb,
+    type: 2}
+  vignetteEnabled: 1
   volume: {fileID: 0}
   rb: {fileID: 5363328647974282290}
   minSpeed: 0.1
-  intensity: 0.75
+  intensity: 0
   lerpDuration: 0.3
 --- !u!1 &5363328647106530752
 GameObject:

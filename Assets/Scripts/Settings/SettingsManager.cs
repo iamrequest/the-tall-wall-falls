@@ -14,6 +14,7 @@ public class SettingsManager : MonoBehaviour {
     public VoidEventChannel speedLinesChangedChannel;
     public SliderEventChannel swordAngleChangedChannel;
     public SliderEventChannel grappleAngleChangedChannel;
+    public SliderEventChannel vignetteStrengthChangedChannel;
 
     [Header("GUI")]
     public Sprite spriteEnabled;
@@ -39,9 +40,16 @@ public class SettingsManager : MonoBehaviour {
     public SettingsMenuSlider grappleAngleSlider;
     public float grappleAngleScaled { get; private set; }
 
+    // -- GrappleAngle
+    public TextMeshProUGUI vignetteStrengthText;
+    public SettingsMenuSlider vignetteStrengthSlider;
+    public float vignetteStrengthScaled { get; private set; }
+
     private void Start() {
         swordAngleSlider.ResetSlider();
         grappleAngleSlider.ResetSlider();
+        vignetteStrengthSlider.ResetSlider();
+
         UpdateGUI();
     }
 
@@ -51,6 +59,7 @@ public class SettingsManager : MonoBehaviour {
         speedLinesChangedChannel.onEventRaised += ToggleSpeedLines;
         swordAngleChangedChannel.onEventRaised += GetSwordAngle;
         grappleAngleChangedChannel.onEventRaised += GetGrappleAngle;
+        vignetteStrengthChangedChannel.onEventRaised += GetVignetteStrength;
     }
 
     private void OnDisable() {
@@ -59,6 +68,7 @@ public class SettingsManager : MonoBehaviour {
         speedLinesChangedChannel.onEventRaised -= ToggleSpeedLines;
         swordAngleChangedChannel.onEventRaised -= GetSwordAngle;
         grappleAngleChangedChannel.onEventRaised -= GetGrappleAngle;
+        vignetteStrengthChangedChannel.onEventRaised -= GetVignetteStrength;
     }
 
     public void UpdateGUI() {
@@ -81,10 +91,21 @@ public class SettingsManager : MonoBehaviour {
         }
 
         // -- Sword angle
-        swordAngleText.text = "Sword Angle: " + swordAngleScaled.ToString("F0");
+        if (swordAngleScaled >= 0f) {
+            swordAngleText.text = "Sword Angle: +" + swordAngleScaled.ToString("F0") + " degrees";
+        } else {
+            swordAngleText.text = "Sword Angle: " + swordAngleScaled.ToString("F0") + " degrees";
+        }
 
         // -- Grapple angle
-        grappleAngleText.text = "Grapple Angle: " + grappleAngleScaled.ToString("F0");
+        if (grappleAngleScaled >= 0f) {
+            grappleAngleText.text = "Grapple Angle: +" + grappleAngleScaled.ToString("F0") + " degrees";
+        } else {
+            grappleAngleText.text = "Grapple Angle: " + grappleAngleScaled.ToString("F0") + " degrees";
+        }
+
+        // -- Vignette Strength
+        vignetteStrengthText.text = "Vignette Strength: " + (vignetteStrengthScaled * 100).ToString("F0") + "%";
     }
 
 
@@ -101,5 +122,8 @@ public class SettingsManager : MonoBehaviour {
     }
     public void GetGrappleAngle(float t, float scaledAngle) {
         grappleAngleScaled = scaledAngle;
+    }
+    public void GetVignetteStrength(float t, float vignetteStrength) {
+        vignetteStrengthScaled = vignetteStrength;
     }
 }

@@ -8,8 +8,10 @@ using UnityEngine.Rendering.Universal;
 /// Displays a simple Post-Processing vignette, with intensity relative to rb speed
 /// </summary>
 public class VignetteManager : MonoBehaviour {
+    public VoidEventChannel vignetteEnabledEventChannel;
+    public SliderEventChannel vignetteIntensityChangedEventChannel;
+
     public bool vignetteEnabled;
-    public VoidEventChannel settingsUpdatedChannel;
     public Volume volume;
     private Vignette vignette;
 
@@ -27,16 +29,21 @@ public class VignetteManager : MonoBehaviour {
     }
 
     private void OnEnable() {
-        settingsUpdatedChannel.onEventRaised += UpdateVignette;
+        vignetteEnabledEventChannel.onEventRaised += UpdateVignette;
+        vignetteIntensityChangedEventChannel.onEventRaised += UpdateVignetteIntensity;
     }
 
     private void OnDisable() {
-        settingsUpdatedChannel.onEventRaised -= UpdateVignette;
+        vignetteEnabledEventChannel.onEventRaised -= UpdateVignette;
+        vignetteIntensityChangedEventChannel.onEventRaised -= UpdateVignetteIntensity;
     }
 
     private void UpdateVignette() {
         vignetteEnabled = !vignetteEnabled;
         elapsedTime = 0f;
+    }
+    private void UpdateVignetteIntensity(float t, float intensity) {
+        this.intensity = intensity;
     }
 
 
