@@ -12,6 +12,7 @@ public class SettingsManager : MonoBehaviour {
     public VoidEventChannel settingsUpdatedChannel;
     public VoidEventChannel vignetteChangedChannel;
     public VoidEventChannel speedLinesChangedChannel;
+    public SliderEventChannel swordAngleChangedChannel;
 
     [Header("GUI")]
     public Sprite spriteEnabled;
@@ -27,6 +28,11 @@ public class SettingsManager : MonoBehaviour {
     public Image speedLinesEnabledImage;
     private bool speedLinesEnabled = true;
 
+    // -- Sword Angle
+    public TextMeshProUGUI swordAngleText;
+    public SettingsMenuSlider swordAngleSlider;
+    public float swordAngleScaled { get; private set; }
+
     private void Awake() {
         UpdateGUI();
     }
@@ -35,12 +41,14 @@ public class SettingsManager : MonoBehaviour {
         settingsUpdatedChannel.onEventRaised += UpdateGUI;
         vignetteChangedChannel.onEventRaised += ToggleVignette;
         speedLinesChangedChannel.onEventRaised += ToggleSpeedLines;
+        swordAngleChangedChannel.onEventRaised += GetSwordAngle;
     }
 
     private void OnDisable() {
         settingsUpdatedChannel.onEventRaised -= UpdateGUI;
         vignetteChangedChannel.onEventRaised -= ToggleVignette;
         speedLinesChangedChannel.onEventRaised -= ToggleSpeedLines;
+        swordAngleChangedChannel.onEventRaised -= GetSwordAngle;
     }
 
     public void UpdateGUI() {
@@ -61,6 +69,10 @@ public class SettingsManager : MonoBehaviour {
             speedLinesEnabledText.text = "Speed Lines: Disabled";
             speedLinesEnabledImage.sprite = spriteDisabled;
         }
+
+        // -- Sword angle
+        // TODO: Format
+        swordAngleText.text = "Sword Angle: " + swordAngleScaled.ToString("F0");
     }
 
 
@@ -71,5 +83,8 @@ public class SettingsManager : MonoBehaviour {
     public void ToggleSpeedLines() {
         speedLinesEnabled = !speedLinesEnabled;
         settingsUpdatedChannel.RaiseEvent();
+    }
+    public void GetSwordAngle(float t, float scaledAngle) {
+        swordAngleScaled = scaledAngle;
     }
 }
