@@ -26,33 +26,51 @@ public class RopeProjectile : MonoBehaviour {
         }
     }
 
+    [Range(0f, 1f)]
+    [Tooltip("The total duration it takes for the projectile to lerp to match the collision normal")]
+    public float attachRotationLerpDuration;
+    // The lerp time between the initial rotation on collision, and the final collisionNormalRotation.
+    private float attachRotationLerpTime;
+
+    private Quaternion collisionNormalRotation, initialCollisionRotation;
+
     private void Awake() {
         m_rb = GetComponent<Rigidbody>();
         m_collider = GetComponent<Collider>();
         m_ropeManager = GetComponentInParent<RopeProjectileManager>();
     }
 
+    private void FixedUpdate() {
+        // When the projectile is attached to something, lerp its rotation to match the target's collision normal
+        if (ropeManager.ropeProjectileState == RopeProjectileState.ATTACHED && attachRotationLerpTime < attachRotationLerpDuration) {
+            attachRotationLerpTime += Time.fixedDeltaTime;
+            transform.rotation = Quaternion.Slerp(initialCollisionRotation, collisionNormalRotation, attachRotationLerpTime / attachRotationLerpDuration);
+        }
+    }
+
     private void OnCollisionEnter(Collision collision) {
         // Only can hook onto something if this projectile is in the air and firing
         if (ropeManager.ropeProjectileState != RopeProjectileState.FIRED) return;
 
+        
         // TODO: Confirm that this won't cause any issues with nested rigidbodies
-        Attach(collision.collider.transform);
+        Attach(collision.collider.transform, collision.GetContact(0).normal);
     }
 
     // TODO: Lerp towards the collision normal rotation
-    public void Attach(Transform target) {
+    public void Attach(Transform target, Vector3 collisionNormal) {
         projectileCollider.enabled = false;
+
+        // Prepare to lerp from the current rotation to the collision normal rotation
+        attachRotationLerpTime = 0f;
+        initialCollisionRotation = transform.rotation;
+        collisionNormalRotation = Quaternion.LookRotation(-collisionNormal, Vector3.up);
 
         // Parent to the collider
         transform.parent = target;
 
-        // TODO: This calculation is wrong
-        Vector3 tmp;
-        tmp.x = 1 / transform.parent.lossyScale.x;
-        tmp.y = 1 / transform.parent.lossyScale.y;
-        tmp.z = 1 / transform.parent.lossyScale.z;
-        transform.localScale = tmp;
+        // TODO: This calculation is wrong?
+        //transform.localScale = transform.parent.lossyScale * .1f;
 
         // Stop all motion
         rb.isKinematic = true;
