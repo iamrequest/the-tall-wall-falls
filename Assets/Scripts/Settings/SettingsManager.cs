@@ -11,6 +11,7 @@ public class SettingsManager : MonoBehaviour {
     [Header("Channels")]
     public VoidEventChannel settingsUpdatedChannel;
     public VoidEventChannel vignetteChangedChannel;
+    public VoidEventChannel speedLinesChangedChannel;
 
     [Header("GUI")]
     public Sprite spriteEnabled;
@@ -33,11 +34,13 @@ public class SettingsManager : MonoBehaviour {
     private void OnEnable() {
         settingsUpdatedChannel.onEventRaised += UpdateGUI;
         vignetteChangedChannel.onEventRaised += ToggleVignette;
+        speedLinesChangedChannel.onEventRaised += ToggleSpeedLines;
     }
 
     private void OnDisable() {
         settingsUpdatedChannel.onEventRaised -= UpdateGUI;
         vignetteChangedChannel.onEventRaised -= ToggleVignette;
+        speedLinesChangedChannel.onEventRaised -= ToggleSpeedLines;
     }
 
     public void UpdateGUI() {
@@ -63,6 +66,10 @@ public class SettingsManager : MonoBehaviour {
 
     public void ToggleVignette() {
         vignetteEnabled = !vignetteEnabled;
+        settingsUpdatedChannel.RaiseEvent();
+    }
+    public void ToggleSpeedLines() {
+        speedLinesEnabled = !speedLinesEnabled;
         settingsUpdatedChannel.RaiseEvent();
     }
 }

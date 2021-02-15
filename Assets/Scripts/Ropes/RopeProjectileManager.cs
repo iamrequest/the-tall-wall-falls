@@ -44,8 +44,6 @@ public class RopeProjectileManager : MonoBehaviour {
     }
 
 
-
-
     /// <summary>
     /// Fires the rope projectile in the direction of transform.forward.
     /// </summary>
@@ -86,6 +84,18 @@ public class RopeProjectileManager : MonoBehaviour {
             ropeProjectile.Detach();
             ropeJointManager.DestroyJoint();
         }
+    }
+
+    public void ReturnProjectileImmediate() {
+        ropeProjectile.Detach();
+        ropeJointManager.DestroyJoint();
+
+        ropeProjectileState = RopeProjectileState.UNFIRED;
+
+        // Reset projectile transform
+        ropeProjectile.transform.parent = transform;
+        ropeProjectile.transform.position = transform.position;
+        ropeProjectile.transform.rotation = transform.rotation;
     }
 
     public void OnProjectileConnected() {

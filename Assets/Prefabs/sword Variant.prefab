@@ -353,6 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fa844fc217f5a4db721233f31914a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsMenuOpenedChannel: {fileID: 11400000, guid: de213238d34d9d344884110062ad3af9,
+    type: 2}
   fireRopeAction:
     actionPath: /actions/default/in/FireRopeProjectile
     needsReinit: 0
@@ -473,6 +475,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attachRotationLerpDuration: 0.05
+--- !u!114 &4148331537623981866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947580957217595652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237e451b38bc5d04485313ca0486af1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsMenuOpenedChannel: {fileID: 11400000, guid: de213238d34d9d344884110062ad3af9,
+    type: 2}
+  swordBlade: {fileID: 2271229325352761043}
+  swordBladeBroken: {fileID: 1228669505646611851}
+  swordHandle: {fileID: 7222901909844408401}
 --- !u!65 &916774191
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -556,7 +575,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f4d91ec9d81669349aae72abc9295d53,
         type: 3}
       propertyPath: m_Name
-      value: sword
+      value: sword Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5156003240216884681, guid: f4d91ec9d81669349aae72abc9295d53,
         type: 3}
@@ -570,15 +589,33 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 8f4643f5be5f8cf42abee22f6c2860a0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4d91ec9d81669349aae72abc9295d53, type: 3}
+--- !u!1 &947580957217595652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f4d91ec9d81669349aae72abc9295d53,
+    type: 3}
+  m_PrefabInstance: {fileID: 137098164106435669}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &463214837238954942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f4d91ec9d81669349aae72abc9295d53,
     type: 3}
   m_PrefabInstance: {fileID: 137098164106435669}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1228669505646611851 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1218802498065125854, guid: f4d91ec9d81669349aae72abc9295d53,
+    type: 3}
+  m_PrefabInstance: {fileID: 137098164106435669}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2271229325352761043 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2189335477926357638, guid: f4d91ec9d81669349aae72abc9295d53,
+    type: 3}
+  m_PrefabInstance: {fileID: 137098164106435669}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7222901909844408401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1883642598021127164, guid: f4d91ec9d81669349aae72abc9295d53,
     type: 3}
   m_PrefabInstance: {fileID: 137098164106435669}
   m_PrefabAsset: {fileID: 0}

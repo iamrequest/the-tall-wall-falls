@@ -10,6 +10,7 @@ using Valve.VR.InteractionSystem;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(AudioSource))]
 public class SettingsMenuManager : MonoBehaviour {
+    public BoolEventChannel menuOpenedChannel;
     private bool isPlacingMenu = false, isMenuOpen = false;
     private Animator animator;
     public SteamVR_Action_Boolean toggleSettingsMenuAction;
@@ -66,6 +67,7 @@ public class SettingsMenuManager : MonoBehaviour {
 
         audioSource.PlayOneShot(menuOpenSFX);
 
+        menuOpenedChannel.RaiseEvent(true);
         UpdateAnimator();
     }
     public void CloseMenu() {
@@ -74,6 +76,7 @@ public class SettingsMenuManager : MonoBehaviour {
 
         audioSource.PlayOneShot(menuClosedSFX);
 
+        menuOpenedChannel.RaiseEvent(false);
         UpdateAnimator();
     }
 
