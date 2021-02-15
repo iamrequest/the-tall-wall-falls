@@ -5,13 +5,20 @@ using UnityEngine;
 /// <summary>
 /// Simple collider gameobject that raises an event on an SO channel.
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class SettingsMenuColliderButton : MonoBehaviour {
     public VoidEventChannel OnColliderPressed;
     public string targetTag = "Player";
+    private AudioSource audioSource;
+    public AudioClip buttonClickedSFX;
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag(targetTag)) {
             OnColliderPressed.RaiseEvent();
+
+            if (buttonClickedSFX != null) {
+                audioSource.PlayOneShot(buttonClickedSFX);
+            }
         }
     }
 }
