@@ -1,0 +1,3 @@
+[submodule "Assets/Scripts/Mathfs"]
+	path = Assets/Scripts/Mathfs
+	url = https://github.com/FreyaHolmer/Mathfs.git

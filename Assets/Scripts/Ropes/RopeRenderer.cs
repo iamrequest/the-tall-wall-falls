@@ -2,34 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Shapes;
+using Freya;
 
 [RequireComponent(typeof(Polyline))]
 [RequireComponent(typeof(BezierSpline))]
 public class RopeRenderer : MonoBehaviour {
+    private RopeProjectileManager ropeProjectileManager;
+
     public Transform projectile;
     private Polyline polyline;
     private BezierSpline bezierSpline;
 
+    [Header("Spline Rendering")]
     [Range(4, 64)]
     public int numDrawnPoints = 4;
 
     [Range(0f, 2f)]
     public float ropeThickness = .1f;
+    public Gradient ropeColor;
 
+
+    [Header("Spline Offset")]
+    [Range(0f, 1f)]
+    public float offsetTime;
+    public AnimationCurve offsetCurve;
 
     [Range(0f, 1f)]
     public float controlPointForwardOffset1, controlPointForwardOffset2;
     [Range(-2f, 2f)]
     public float controlPointRightOffset1, controlPointRightOffset2;
 
-    [Range(0f, 1f)]
-    public float offsetTime;
-    public AnimationCurve offsetCurve;
-
     private Vector3 controlPoint1, controlPoint2;
 
 
     private void Awake() {
+        ropeProjectileManager = GetComponentInParent<RopeProjectileManager>();
         polyline = GetComponent<Polyline>();
         bezierSpline = GetComponent<BezierSpline>();
     }
@@ -47,6 +54,10 @@ public class RopeRenderer : MonoBehaviour {
     private void Update() {
         UpdateControlPoints();
         UpdatePolyline();
+
+        // Lerp the rope color based on how far we are from the max distance.
+        polyline.Color = ropeColor.Evaluate((transform.position - projectile.transform.position).magnitude 
+            / ropeProjectileManager.maxProjectileDistance);
     }
 
     private void UpdateControlPoints() {
