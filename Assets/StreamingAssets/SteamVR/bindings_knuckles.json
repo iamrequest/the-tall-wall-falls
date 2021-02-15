@@ -266,6 +266,24 @@
                },
                "mode" : "trigger",
                "path" : "/user/hand/left/input/trigger"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/togglesettingsmenu"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/a"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/fireropeprojectile"
+                  }
+               },
+               "mode" : "trigger",
+               "path" : "/user/hand/right/input/trigger"
             }
          ]
       },
