@@ -11,13 +11,15 @@ public class RopeJointManager : MonoBehaviour {
     public SteamVR_Action_Boolean pullRopeAction;
     public SteamVR_Input_Sources inputSource;
 
-    private Rigidbody rb;
+    public Rigidbody playerRB;
 
     [HideInInspector]
     public SpringJoint joint;
 
+    [HideInInspector]
     [Tooltip("The start transform of the rope")]
     public Transform localAnchorTransform;
+    [HideInInspector]
     [Tooltip("The end transform of the rope")]
     public Transform targetAnchorTransform;
 
@@ -28,13 +30,12 @@ public class RopeJointManager : MonoBehaviour {
     public float extraInitialRopeDistance;
 
     private void Awake() {
-        rb = GetComponentInParent<Rigidbody>();
         localAnchorTransform = transform;
     }
 
     public void AddJoint(Rigidbody target, Transform offsetTransform) {
         // Instantiate joint, and connect it to the target
-        joint = rb.gameObject.AddComponent<SpringJoint>();
+        joint = playerRB.gameObject.AddComponent<SpringJoint>();
         targetAnchorTransform = offsetTransform;
         joint.connectedBody = target;
 
@@ -64,7 +65,7 @@ public class RopeJointManager : MonoBehaviour {
 
         // Update the local anchor
         if (localAnchorTransform != null) {
-            joint.anchor = GetJointOffset(rb, localAnchorTransform);
+            joint.anchor = GetJointOffset(playerRB, localAnchorTransform);
         } else {
             joint.anchor = Vector3.zero;
         }
@@ -89,7 +90,7 @@ public class RopeJointManager : MonoBehaviour {
                 joint.maxDistance -= (ropePullSpeed * Time.fixedDeltaTime);
 
                 // This is required, otherwise the rigidbody won't produce any motion until the rigidbody recieves motion from some other source (collision, player input, etc)
-                rb.WakeUp();
+                playerRB.WakeUp();
             }
 
             // TODO: Update max distance
