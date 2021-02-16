@@ -13,6 +13,10 @@ public class SettingsMenuInteractor : MonoBehaviour {
     public SteamVR_Input_Sources inputSource;
     public SettingsMenuSlider hoveredSlider, grabbedSlider;
 
+    [TextArea]
+    [Tooltip("Read-only note. No effect on gameplay.")]
+    public String README = "Settings interactors should be on the Water layer. I'm re-purposing this layer, since it has no usage in this game";
+
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.TryGetComponent(out SettingsMenuSlider slider)) {
             hoveredSlider = slider;

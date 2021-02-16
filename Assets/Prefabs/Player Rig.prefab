@@ -107,11 +107,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuInteractionAction:
-    actionPath: /actions/default/in/InteractUI
-    needsReinit: 0
+    actionPath: 
+    needsReinit: 1
   inputSource: 2
   hoveredSlider: {fileID: 0}
   grabbedSlider: {fileID: 0}
+  README: Settings interactors should be on the Water layer. I'm re-purposing this
+    layer, since it has no usage in this game
 --- !u!1 &2396670338937546132
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,6 +578,8 @@ MonoBehaviour:
   inputSource: 1
   hoveredSlider: {fileID: 0}
   grabbedSlider: {fileID: 0}
+  README: Settings interactors should be on the Water layer. I'm re-purposing this
+    layer, since it has no usage in this game
 --- !u!114 &5363328648213779822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,9 +1148,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8393763214920037598}
     m_Modifications:
+    - target: {fileID: 1274908976, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1274908980, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287052196, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1287052198, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: inputSource
@@ -1160,6 +1172,10 @@ PrefabInstance:
       propertyPath: playerRB
       value: 
       objectReference: {fileID: 1877235487}
+    - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 463214837238954942, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1200,16 +1216,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 947580956753744748, guid: 90e11855141892d41a965373ef14604a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 947580957217595652, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_Name
       value: sword Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 947580957217595652, guid: 90e11855141892d41a965373ef14604a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228669505646611851, guid: 90e11855141892d41a965373ef14604a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271229325352761043, guid: 90e11855141892d41a965373ef14604a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4148331537623981866, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: settingsMenuInteractor
       value: 
       objectReference: {fileID: 1034545389117025533}
+    - target: {fileID: 7222901909844408401, guid: 90e11855141892d41a965373ef14604a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90e11855141892d41a965373ef14604a, type: 3}
 --- !u!1 &5136396198708523875 stripped
@@ -1239,7 +1280,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1274908976, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1274908980, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Mesh
@@ -1247,7 +1288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1287052196, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1287052197, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1279,7 +1320,7 @@ PrefabInstance:
       objectReference: {fileID: 1877235487}
     - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 463214837238954942, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
@@ -1339,7 +1380,7 @@ PrefabInstance:
     - target: {fileID: 947580956753744748, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 947580957217595652, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
@@ -1349,17 +1390,17 @@ PrefabInstance:
     - target: {fileID: 947580957217595652, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1228669505646611851, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2271229325352761043, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4148331537623981866, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
@@ -1399,7 +1440,7 @@ PrefabInstance:
     - target: {fileID: 7222901909844408401, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8873902715845013709, guid: 90e11855141892d41a965373ef14604a,
         type: 3}

@@ -424,6 +424,40 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216392160}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!21 &251224033
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &253619511
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,40 +568,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253619511}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &258978347
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &278450046
 GameObject:
   m_ObjectHideFlags: 0
@@ -3089,6 +3089,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1445332364}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1488792919 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5359401208172401361, guid: 55a87cbc2eea02f42974fd1d119d4b96,
+    type: 3}
+  m_PrefabInstance: {fileID: 5363328647279704118}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1602541853
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,7 +3846,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!43 &1751337675
+--- !u!43 &1737665269
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4799,16 +4805,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1877235486, guid: 55a87cbc2eea02f42974fd1d119d4b96, type: 3}
+      propertyPath: steeringTransform
+      value: 
+      objectReference: {fileID: 1488792919}
+    - target: {fileID: 887829507172774885, guid: 55a87cbc2eea02f42974fd1d119d4b96,
+        type: 3}
+      propertyPath: m_SlerpDrive.positionSpring
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3057349518654703847, guid: 55a87cbc2eea02f42974fd1d119d4b96,
+        type: 3}
+      propertyPath: m_SlerpDrive.positionSpring
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5363328647688438801, guid: 55a87cbc2eea02f42974fd1d119d4b96,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1751337675}
+      objectReference: {fileID: 1737665269}
     - target: {fileID: 5363328647689471381, guid: 55a87cbc2eea02f42974fd1d119d4b96,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 258978347}
+      objectReference: {fileID: 251224033}
     - target: {fileID: 5363328647974282291, guid: 55a87cbc2eea02f42974fd1d119d4b96,
         type: 3}
       propertyPath: m_LocalPosition.x
