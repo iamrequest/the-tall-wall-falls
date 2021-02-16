@@ -19,6 +19,7 @@ public class SmoothLocomotionRB : MonoBehaviour {
     // Note: onGroundMoveSpeed will still be applied if the player's feet don't touch the ground, but they're hugging a wall. Easy wall run I guess?
     [Range(0f, 10f)]
     public float onGroundMoveSpeed, inAirMoveSpeed;
+    public ForceMode inAirForceMode;
 
     public PhysicMaterial highFrictionMat, lowFrictionMat;
 
@@ -32,8 +33,8 @@ public class SmoothLocomotionRB : MonoBehaviour {
         Vector3 input = Vector3.zero;
 
         // Fetch the basis vector for the steering transform, projected onto player's local space
-        Vector3 forward = Vector3.ProjectOnPlane(steeringTransform.forward, Vector3.up);
-        Vector3 right = Vector3.ProjectOnPlane(steeringTransform.right, Vector3.up);
+        Vector3 forward = Vector3.ProjectOnPlane(steeringTransform.forward, Vector3.up).normalized;
+        Vector3 right = Vector3.ProjectOnPlane(steeringTransform.right, Vector3.up).normalized;
 
         // Apply player input
         input += forward * smoothLocomotionAction.axis.y;
@@ -42,7 +43,7 @@ public class SmoothLocomotionRB : MonoBehaviour {
         return input;
     }
 
-    private void UpdateMotion(float moveSpeed, bool overwritePreviousVelocity) {
+    private void UpdateMotion(float moveSpeed, bool overwritePreviousVelocity, ForceMode forceMode = ForceMode.VelocityChange) {
         Vector3 motion;
 
         // Remove the last frame's velocity. Useful for grounded locomotion, for snappier motion
@@ -56,7 +57,7 @@ public class SmoothLocomotionRB : MonoBehaviour {
         // Apply player input
         motion += GetInput() * moveSpeed;
 
-        rb.AddForce(motion, ForceMode.VelocityChange);
+        rb.AddForce(motion, forceMode);
     }
 
     /// <summary>
@@ -80,7 +81,7 @@ public class SmoothLocomotionRB : MonoBehaviour {
             if (groundCount > 0) {
                 UpdateMotion(onGroundMoveSpeed, true);
             } else {
-                UpdateMotion(inAirMoveSpeed, false);
+                UpdateMotion(inAirMoveSpeed, false, inAirForceMode);
             }
         } else {
             // -- Player isn't applying input
