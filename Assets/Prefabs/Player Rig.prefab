@@ -691,9 +691,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e51da4104aed774fad23c4be258ec78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 5359401208172401361}
+  steeringTransformChangedEventChannel: {fileID: 11400000, guid: e8a0f889c19190346898233b405ae1ee,
+    type: 2}
+  steeringTransform: {fileID: 5359401208172401361}
+  hmdTransform: {fileID: 5359401208172401361}
+  leftHandTransform: {fileID: 5363328647687164473}
+  rightHandTransform: {fileID: 5363328647687108325}
   bodyCollider: {fileID: 5363328648700448982}
-  steeringTransform: {fileID: 5363328647687164473}
   smoothLocomotionAction:
     actionPath: /actions/default/in/SmoothLocomotion
     needsReinit: 0

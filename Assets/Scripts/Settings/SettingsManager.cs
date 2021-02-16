@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Valve.VR;
 
 /// <summary>
 /// Handles the actual propogation of settings data
@@ -15,10 +16,11 @@ public class SettingsManager : MonoBehaviour {
     public SliderEventChannel swordAngleChangedChannel;
     public SliderEventChannel grappleAngleChangedChannel;
     public SliderEventChannel vignetteStrengthChangedChannel;
+    public SteamVRInputSourcesEventChannel steeringTransformChangedChannel;
 
     [Header("GUI")]
-    public Sprite spriteEnabled;
-    public Sprite spriteDisabled;
+    public Sprite spriteEnabled, spriteDisabled;
+    public Sprite spriteHMD, spriteLeftHand, spriteRightHand;
 
     // -- Vignette
     public TextMeshProUGUI vignetteEnabledText;
@@ -45,6 +47,10 @@ public class SettingsManager : MonoBehaviour {
     public SettingsMenuSlider vignetteStrengthSlider;
     public float vignetteStrengthScaled { get; private set; }
 
+    // -- Steering Transform
+    public SteamVR_Input_Sources steeringTransformInputSource;
+    public Image steeringTransformImage;
+
     private void Start() {
         swordAngleSlider.ResetSlider();
         grappleAngleSlider.ResetSlider();
@@ -60,6 +66,7 @@ public class SettingsManager : MonoBehaviour {
         swordAngleChangedChannel.onEventRaised += GetSwordAngle;
         grappleAngleChangedChannel.onEventRaised += GetGrappleAngle;
         vignetteStrengthChangedChannel.onEventRaised += GetVignetteStrength;
+        steeringTransformChangedChannel.onEventRaised += GetSteeringTransform;
     }
 
     private void OnDisable() {
@@ -69,6 +76,7 @@ public class SettingsManager : MonoBehaviour {
         swordAngleChangedChannel.onEventRaised -= GetSwordAngle;
         grappleAngleChangedChannel.onEventRaised -= GetGrappleAngle;
         vignetteStrengthChangedChannel.onEventRaised -= GetVignetteStrength;
+        steeringTransformChangedChannel.onEventRaised -= GetSteeringTransform;
     }
 
     public void UpdateGUI() {
@@ -106,6 +114,19 @@ public class SettingsManager : MonoBehaviour {
 
         // -- Vignette Strength
         vignetteStrengthText.text = "Vignette Strength: " + (vignetteStrengthScaled * 100).ToString("F0") + "%";
+
+        // -- Steering Transform 
+        switch (steeringTransformInputSource) {
+            case SteamVR_Input_Sources.LeftHand:
+                steeringTransformImage.sprite = spriteLeftHand;
+                break;
+            case SteamVR_Input_Sources.RightHand:
+                steeringTransformImage.sprite = spriteRightHand;
+                break;
+            default:
+                steeringTransformImage.sprite = spriteHMD;
+                break;
+        }
     }
 
 
@@ -125,5 +146,8 @@ public class SettingsManager : MonoBehaviour {
     }
     public void GetVignetteStrength(float t, float vignetteStrength) {
         vignetteStrengthScaled = vignetteStrength;
+    }
+    public void GetSteeringTransform(SteamVR_Input_Sources inputSource) {
+        steeringTransformInputSource = inputSource;
     }
 }

@@ -9,11 +9,13 @@ using Valve.VR.InteractionSystem;
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class SmoothLocomotionRB : MonoBehaviour {
+    public SteamVRInputSourcesEventChannel steeringTransformChangedEventChannel;
+    public Transform steeringTransform;
+    public Transform hmdTransform, leftHandTransform, rightHandTransform;
+
     private Rigidbody rb;
 
-    public Transform head;
     public CapsuleCollider bodyCollider;
-    public Transform steeringTransform;
     public SteamVR_Action_Vector2 smoothLocomotionAction;
 
     // Note: onGroundMoveSpeed will still be applied if the player's feet don't touch the ground, but they're hugging a wall. Easy wall run I guess?
@@ -28,6 +30,14 @@ public class SmoothLocomotionRB : MonoBehaviour {
     private void Awake() {
         rb = GetComponent<Rigidbody>();
     }
+    private void OnEnable() {
+        steeringTransformChangedEventChannel.onEventRaised += UpdateSteeringTransform;
+    }
+
+    private void OnDisable() {
+        steeringTransformChangedEventChannel.onEventRaised -= UpdateSteeringTransform;
+    }
+
 
     private Vector3 GetInput() {
         Vector3 input = Vector3.zero;
@@ -64,10 +74,10 @@ public class SmoothLocomotionRB : MonoBehaviour {
     /// Update the body collider to align with the camera
     /// </summary>
     private void UpdateBodySize() {
-        bodyCollider.height = head.localPosition.y;
-        bodyCollider.center = new Vector3(head.localPosition.x, 
-            head.localPosition.y / 2, 
-            head.localPosition.z);
+        bodyCollider.height = hmdTransform.localPosition.y;
+        bodyCollider.center = new Vector3(hmdTransform.localPosition.x,
+            hmdTransform.localPosition.y / 2,
+            hmdTransform.localPosition.z);
     }
 
     void FixedUpdate() {
@@ -91,11 +101,28 @@ public class SmoothLocomotionRB : MonoBehaviour {
         }
     }
 
+    // -- Ground check
     private void OnCollisionEnter(Collision collision) {
         groundCount++;
     }
 
     private void OnCollisionExit(Collision collision) {
         groundCount--;
+    }
+
+
+    // -- Steering transform
+    private void UpdateSteeringTransform(SteamVR_Input_Sources inputSource) {
+        switch (inputSource) {
+            case SteamVR_Input_Sources.LeftHand:
+                steeringTransform = leftHandTransform;
+                return;
+            case SteamVR_Input_Sources.RightHand:
+                steeringTransform = rightHandTransform;
+                return;
+            default:
+                steeringTransform = hmdTransform;
+                return;
+        }
     }
 }
