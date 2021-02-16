@@ -1176,6 +1176,10 @@ PrefabInstance:
       propertyPath: playerRB
       value: 
       objectReference: {fileID: 1877235487}
+    - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: pullRopeAction.actionPath
+      value: /actions/default/in/PullRope
+      objectReference: {fileID: 0}
     - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1322,6 +1326,10 @@ PrefabInstance:
       propertyPath: playerRB
       value: 
       objectReference: {fileID: 1877235487}
+    - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: pullRopeAction.actionPath
+      value: /actions/default/in/PullRope
+      objectReference: {fileID: 0}
     - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
       value: 9

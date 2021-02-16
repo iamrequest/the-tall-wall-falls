@@ -65,6 +65,11 @@
       "requirement": "mandatory"
     },
     {
+      "name": "/actions/default/in/PullRope",
+      "type": "boolean",
+      "requirement": "suggested"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -187,7 +192,8 @@
       "/actions/default/in/SnapTurnRight": "Snap Turn (Right)",
       "/actions/default/in/SmoothLocomotion": "Smooth Locomotion",
       "/actions/default/in/FireRopeProjectile": "Fire Rope Projectile",
-      "/actions/default/in/ToggleSettingsMenu": "Toggle Settings Menu"
+      "/actions/default/in/ToggleSettingsMenu": "Toggle Settings Menu",
+      "/actions/default/in/PullRope": "Pull Rope"
     }
   ]
 }

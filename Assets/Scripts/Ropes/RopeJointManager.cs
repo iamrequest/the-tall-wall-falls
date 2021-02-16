@@ -86,7 +86,7 @@ public class RopeJointManager : MonoBehaviour {
 
     private void FixedUpdate() {
         if (joint != null) {
-            if (pullRopeAction.GetStateDown(inputSource)) {
+            if (pullRopeAction.GetState(inputSource)) {
                 joint.maxDistance -= (ropePullSpeed * Time.fixedDeltaTime);
 
                 // This is required, otherwise the rigidbody won't produce any motion until the rigidbody recieves motion from some other source (collision, player input, etc)
