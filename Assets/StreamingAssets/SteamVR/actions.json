@@ -70,6 +70,10 @@
       "requirement": "suggested"
     },
     {
+      "name": "/actions/default/in/Jump",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -193,7 +197,8 @@
       "/actions/default/in/SmoothLocomotion": "Smooth Locomotion",
       "/actions/default/in/FireRopeProjectile": "Fire Rope Projectile",
       "/actions/default/in/ToggleSettingsMenu": "Toggle Settings Menu",
-      "/actions/default/in/PullRope": "Pull Rope"
+      "/actions/default/in/PullRope": "Pull Rope",
+      "/actions/default/in/Jump": "Jump"
     }
   ]
 }

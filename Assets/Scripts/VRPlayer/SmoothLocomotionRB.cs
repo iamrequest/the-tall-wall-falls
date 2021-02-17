@@ -8,12 +8,14 @@ using Valve.VR.InteractionSystem;
 /// Simple smooth locomotion using a rigidbody.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(JumpManagerRB))]
 public class SmoothLocomotionRB : MonoBehaviour {
     public SteamVRInputSourcesEventChannel steeringTransformChangedEventChannel;
     public Transform steeringTransform;
     public Transform hmdTransform, leftHandTransform, rightHandTransform;
 
     private Rigidbody rb;
+    private JumpManagerRB jumpManagerRB;
 
     public CapsuleCollider bodyCollider;
     public SteamVR_Action_Vector2 smoothLocomotionAction;
@@ -25,11 +27,11 @@ public class SmoothLocomotionRB : MonoBehaviour {
 
     public PhysicMaterial highFrictionMat, lowFrictionMat;
 
-    public int groundCount;
-
     private void Awake() {
         rb = GetComponent<Rigidbody>();
+        jumpManagerRB = GetComponent<JumpManagerRB>();
     }
+
     private void OnEnable() {
         steeringTransformChangedEventChannel.onEventRaised += UpdateSteeringTransform;
     }
@@ -88,26 +90,17 @@ public class SmoothLocomotionRB : MonoBehaviour {
             bodyCollider.material = lowFrictionMat;
 
             // Determine the player's move speed, based on whether or not they're touching ground (or walls)
-            if (groundCount > 0) {
+            if (jumpManagerRB.isTouchingGround) {
                 UpdateMotion(onGroundMoveSpeed, true);
             } else {
                 UpdateMotion(inAirMoveSpeed, false, inAirForceMode);
             }
         } else {
             // -- Player isn't applying input
-            if (groundCount > 0) {
+            if (jumpManagerRB.isTouchingGround) {
                 bodyCollider.material = highFrictionMat;
             }
         }
-    }
-
-    // -- Ground check
-    private void OnCollisionEnter(Collision collision) {
-        groundCount++;
-    }
-
-    private void OnCollisionExit(Collision collision) {
-        groundCount--;
     }
 
 
