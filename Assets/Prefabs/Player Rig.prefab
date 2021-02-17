@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &340077584360163674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 263511555637523874}
+  - component: {fileID: 6779951801584594492}
+  m_Layer: 0
+  m_Name: Nausia Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &263511555637523874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340077584360163674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.2942816, y: 0.9442211, z: 1.7441552}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5363328647974282291}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6779951801584594492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340077584360163674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: d06a0972dcfc88c43b4a9eb3c42c784c, type: 2}
 --- !u!1 &1034545389117025533
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +322,7 @@ MonoBehaviour:
   targetTransform: {fileID: 5363328647687164473}
   snapDistance: 1
   snapDistanceEnabled: 1
-  rotationLerpSpeed: 0.25
+  rotationLerpSpeed: 0.5
 --- !u!1 &4299038962705622436
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,7 +483,7 @@ MonoBehaviour:
   targetTransform: {fileID: 5363328647687108325}
   snapDistance: 1
   snapDistanceEnabled: 1
-  rotationLerpSpeed: 0.25
+  rotationLerpSpeed: 0.5
 --- !u!114 &1749091505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,7 +676,7 @@ MonoBehaviour:
   vignetteIntensityChangedEventChannel: {fileID: 11400000, guid: f81fdbe9000ddc244b88adaa7a7e9edb,
     type: 2}
   vignetteEnabled: 1
-  volume: {fileID: 0}
+  volume: {fileID: 6779951801584594492}
   rb: {fileID: 1877235487}
   minSpeed: 0.1
   intensity: 0
@@ -679,6 +727,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &332790184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5363328647687368499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 591fa0a582e0e6e4a9d608226ff0c4b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpAction:
+    actionPath: /actions/default/in/Jump
+    needsReinit: 0
+  jumpHeight: 1
+  maxGroundAngle: 45
+  coyoteTime: 0.25
 --- !u!114 &1877235486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,7 +772,6 @@ MonoBehaviour:
   inAirForceMode: 0
   highFrictionMat: {fileID: 13400000, guid: 06f027c337a852b46a3f053517d3084f, type: 2}
   lowFrictionMat: {fileID: 13400000, guid: 223a41abb1dd8004685e32452bce24a9, type: 2}
-  groundCount: 0
 --- !u!114 &5717549315929504321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +824,7 @@ Transform:
   - {fileID: 5363328647687093963}
   - {fileID: 2910785165765099572}
   - {fileID: 8393763214920037598}
+  - {fileID: 263511555637523874}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1109,9 +1175,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
---- !u!1 &5363175264513009359 stripped
+--- !u!4 &5363328647687093963 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 420908, guid: 4d293c8e162f3874b982baadd71153d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 5363328647687492327}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5363328647687368499 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2,
+  m_CorrespondingSourceObject: {fileID: 146900, guid: 4d293c8e162f3874b982baadd71153d2,
     type: 3}
   m_PrefabInstance: {fileID: 5363328647687492327}
   m_PrefabAsset: {fileID: 0}
@@ -1127,21 +1199,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5363328647687492327}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5363175264513009359 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 5363328647687492327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5363328647687164473 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 458974, guid: 4d293c8e162f3874b982baadd71153d2,
-    type: 3}
-  m_PrefabInstance: {fileID: 5363328647687492327}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5363328647687093963 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 420908, guid: 4d293c8e162f3874b982baadd71153d2,
-    type: 3}
-  m_PrefabInstance: {fileID: 5363328647687492327}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5363328647687368499 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 146900, guid: 4d293c8e162f3874b982baadd71153d2,
     type: 3}
   m_PrefabInstance: {fileID: 5363328647687492327}
   m_PrefabAsset: {fileID: 0}
@@ -1179,6 +1245,10 @@ PrefabInstance:
     - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: pullRopeAction.actionPath
       value: /actions/default/in/PullRope
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: ropePullSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
@@ -1329,6 +1399,10 @@ PrefabInstance:
     - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: pullRopeAction.actionPath
       value: /actions/default/in/PullRope
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: ropePullSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
