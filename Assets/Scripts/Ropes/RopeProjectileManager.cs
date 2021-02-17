@@ -99,10 +99,22 @@ public class RopeProjectileManager : MonoBehaviour {
     }
 
     public void OnProjectileConnected() {
-        if (ropeProjectile.transform.parent.TryGetComponent(out Rigidbody targetRB)) {
+        Rigidbody targetRB;
+
+        // Try to find a rigidbody in the gameobject we just collided with
+        targetRB = ropeProjectile.transform.parent.GetComponent<Rigidbody>();
+        if (targetRB != null) {
             ropeProjectileState = RopeProjectileState.ATTACHED;
 
             ropeJointManager.AddJoint(targetRB, ropeProjectile.transform);
+        } else {
+            // If that fails, try to find it in the parent(s)
+            targetRB = ropeProjectile.transform.parent.GetComponentInParent<Rigidbody>();
+            if (targetRB != null) {
+                ropeProjectileState = RopeProjectileState.ATTACHED;
+
+                ropeJointManager.AddJoint(targetRB, ropeProjectile.transform);
+            }
         }
     }
 
