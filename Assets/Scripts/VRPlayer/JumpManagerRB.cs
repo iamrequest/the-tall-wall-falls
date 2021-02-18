@@ -61,14 +61,14 @@ public class JumpManagerRB : MonoBehaviour {
 
     private void Update() {
         // Check if the player pressed the jump button this frame. Process it later in FixedUpdate()
-        jumpBuffered |= jumpAction.GetState(SteamVR_Input_Sources.Any);
+        jumpBuffered |= jumpAction.GetStateDown(SteamVR_Input_Sources.Any);
     }
 
     private void FixedUpdate() {
         if (jumpBuffered && jumpCount < maxJumpCount) {
             jumpCount++;
 
-            // Cache the normal for coyote time
+            // Cache the normal for coyote time. 
             coyoteNormal = GetJumpNormal();
 
             float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * jumpHeight);
