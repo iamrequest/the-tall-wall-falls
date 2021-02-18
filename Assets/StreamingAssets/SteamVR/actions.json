@@ -74,6 +74,10 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/default/in/ToggleSlowMotion",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -198,7 +202,8 @@
       "/actions/default/in/FireRopeProjectile": "Fire Rope Projectile",
       "/actions/default/in/ToggleSettingsMenu": "Toggle Settings Menu",
       "/actions/default/in/PullRope": "Pull Rope",
-      "/actions/default/in/Jump": "Jump"
+      "/actions/default/in/Jump": "Jump",
+      "/actions/default/in/ToggleSlowMotion": "ToggleSlowMotion"
     }
   ]
 }

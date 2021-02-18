@@ -288,6 +288,15 @@
                },
                "mode" : "button",
                "path" : "/user/hand/right/input/a"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/toggleslowmotion"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/right/input/b"
             }
          ]
       },
