@@ -15,10 +15,12 @@ public class JumpManagerRB : MonoBehaviour {
 
     [Range(0f, 10f)]
     public float jumpHeight;
+    [Range(0f, 10f)]
+    public float wallJumpHeight;
     private bool jumpBuffered;
-    private int groundCount = 0, nonGroundCount = 0;
+    public int groundCount = 0, nonGroundCount = 0;
 
-    public bool isTouching {
+    public bool isTouchingNonGround {
         get {
             return nonGroundCount > 0;
         }
@@ -47,8 +49,9 @@ public class JumpManagerRB : MonoBehaviour {
     public float coyoteTime;
     private float elapsedCoyoteTime;
 
+    // Required to prevent double jump bug. Maybe related to a race condition between when the velocity is applied, vs when the ground count is updated?
     [Range(0f, .2f)]
-    [Tooltip("Extra delay before consecutive jumps are allowed")]
+    [Tooltip("Extra delay before consecutive jumps are allowed. Timer is reset when grounded")]
     public float jumpDelay;
     private float elapsedJumpDelay;
 
@@ -69,7 +72,7 @@ public class JumpManagerRB : MonoBehaviour {
     private void FixedUpdate() {
         // -- Coyote Time
         // TODO: Need to decouple coyote time from isTouchingGround
-        if (isTouchingGround) {
+        if (isTouchingGround || isTouchingNonGround) {
             elapsedCoyoteTime = 0f;
             elapsedJumpDelay += Time.fixedDeltaTime;
         } else {
@@ -78,7 +81,6 @@ public class JumpManagerRB : MonoBehaviour {
         }
 
         if (jumpBuffered && elapsedJumpDelay >= jumpDelay) {
-
             // Cache the normal for coyote time. 
             coyoteNormal = GetJumpNormal();
             elapsedCoyoteTime = coyoteTime + 1;
@@ -86,6 +88,12 @@ public class JumpManagerRB : MonoBehaviour {
 
             float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * jumpHeight);
             rb.velocity += coyoteNormal * jumpSpeed;
+
+            // If we're doing a wall jump, also add the extra vertical velocity from that.
+            if (!isTouchingGround && isTouchingNonGround) {
+                jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * wallJumpHeight);
+                rb.velocity += Vector3.up * jumpSpeed;
+            }
         }
 
         UnsetGroundCheck();
@@ -114,19 +122,19 @@ public class JumpManagerRB : MonoBehaviour {
             } else {
                 return groundNormal;
             }
+        } else if (isTouchingNonGround) {
+            // -- Not touching ground, but we're touching a wall
+            // Normalize if there's more than 1 collider we're touching
+            if (nonGroundCount > 1) {
+                return nonGroundNormal.normalized;
+            } else {
+                return nonGroundNormal;
+            }
 
         } else if (isInCoyoteTime) {
             // If we're in the middle of coyote time, just use the normal that we cached from last frame
             return coyoteNormal;
 
-        } else if (isTouching) {
-            // -- Not touching ground, but we're touching a wall
-            // Normalize if there's more than 1 collider we're touching
-            if (nonGroundCount > 1) {
-                return groundNormal.normalized;
-            } else {
-                return nonGroundNormal;
-            }
 
         } else {
             // -- In air
