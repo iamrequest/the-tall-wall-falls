@@ -80,7 +80,9 @@ public class JumpManagerRB : MonoBehaviour {
             elapsedJumpDelay = 0f;
         }
 
-        if (jumpBuffered && elapsedJumpDelay >= jumpDelay) {
+        // If we recieved a jump input from the player, and we're able to jump
+        // TODO: Test coyote time after the recent change
+        if (jumpBuffered && (elapsedJumpDelay >= jumpDelay || elapsedCoyoteTime <= coyoteTime)) {
             // Cache the normal for coyote time. 
             coyoteNormal = GetJumpNormal();
 
