@@ -20,8 +20,10 @@ public class RopeProjectileManager : MonoBehaviour {
 
     public RopeProjectileState ropeProjectileState = RopeProjectileState.UNFIRED;
 
-    [Range(0.1f, 10f)]
-    public float maxProjectileDistance = .1f, projectileFireDuration = .1f, projectileReturnDuration = .1f;
+    [Range(0.1f, 30f)]
+    public float maxProjectileDistance = .1f;
+    [Range(0.1f, 2)]
+    public float projectileFireDuration = .1f, projectileReturnDuration = .1f;
 
     // -- Used for lerping back to this transform
     private Vector3 initialReturnPosition;

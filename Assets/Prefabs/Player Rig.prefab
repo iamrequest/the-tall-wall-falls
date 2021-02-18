@@ -1643,6 +1643,10 @@ PrefabInstance:
       propertyPath: inputSource
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1287052198, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: maxProjectileDistance
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: inputSource
       value: 2
@@ -1800,6 +1804,10 @@ PrefabInstance:
     - target: {fileID: 1287052198, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: inputSource
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287052198, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: maxProjectileDistance
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: playerRB

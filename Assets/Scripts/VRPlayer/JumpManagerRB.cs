@@ -83,7 +83,6 @@ public class JumpManagerRB : MonoBehaviour {
         if (jumpBuffered && elapsedJumpDelay >= jumpDelay) {
             // Cache the normal for coyote time. 
             coyoteNormal = GetJumpNormal();
-            elapsedCoyoteTime = coyoteTime + 1;
 
 
             float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * jumpHeight);
