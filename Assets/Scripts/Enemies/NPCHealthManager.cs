@@ -13,7 +13,6 @@ public class NPCHealthManager : MonoBehaviour {
     private void Awake() {
         animator = GetComponent<Animator>();
 
-        limbs.AddRange(GetComponentsInChildren<Rigidbody>());
         SetRagdollEnabled(isRagdollActive);
     }
 
