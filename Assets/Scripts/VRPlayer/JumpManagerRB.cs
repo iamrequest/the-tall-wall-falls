@@ -16,9 +16,6 @@ public class JumpManagerRB : MonoBehaviour {
     [Range(0f, 10f)]
     public float jumpHeight;
     private bool jumpBuffered;
-    private int maxJumpCount = 1;
-    private int jumpCount;
-
     private int groundCount = 0, nonGroundCount = 0;
 
     public bool isTouching {
@@ -50,6 +47,11 @@ public class JumpManagerRB : MonoBehaviour {
     public float coyoteTime;
     private float elapsedCoyoteTime;
 
+    [Range(0f, .2f)]
+    [Tooltip("Extra delay before consecutive jumps are allowed")]
+    public float jumpDelay;
+    private float elapsedJumpDelay;
+
     private void OnValidate() {
         minGroundDotProduct = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
     }
@@ -65,23 +67,25 @@ public class JumpManagerRB : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (jumpBuffered && jumpCount < maxJumpCount) {
-            jumpCount++;
-
-            // Cache the normal for coyote time. 
-            coyoteNormal = GetJumpNormal();
-
-            float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * jumpHeight);
-            rb.velocity += coyoteNormal * jumpSpeed;
-        }
-
         // -- Coyote Time
         // TODO: Need to decouple coyote time from isTouchingGround
         if (isTouchingGround) {
             elapsedCoyoteTime = 0f;
-            jumpCount = 0;
+            elapsedJumpDelay += Time.fixedDeltaTime;
         } else {
             elapsedCoyoteTime += Time.fixedDeltaTime;
+            elapsedJumpDelay = 0f;
+        }
+
+        if (jumpBuffered && elapsedJumpDelay >= jumpDelay) {
+
+            // Cache the normal for coyote time. 
+            coyoteNormal = GetJumpNormal();
+            elapsedCoyoteTime = coyoteTime + 1;
+
+
+            float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * jumpHeight);
+            rb.velocity += coyoteNormal * jumpSpeed;
         }
 
         UnsetGroundCheck();
