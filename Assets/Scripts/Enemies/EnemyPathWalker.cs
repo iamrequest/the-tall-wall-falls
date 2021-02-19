@@ -28,9 +28,11 @@ public class EnemyPathWalker : MonoBehaviour {
 
     private void Awake() {
         pathManager = GetComponent<PathManager>();
-        Setup();
     }
 
+    /// <summary>
+    /// Call after the start node has been assigned
+    /// </summary>
     public void Setup() {
         pathManager.GetRandomPath();
         pathManager.CalculatePathSpline();

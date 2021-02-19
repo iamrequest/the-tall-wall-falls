@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour {
     public EnemyPathWalker pathWalker;
     [HideInInspector]
     public EnemyHealthManager healthManager;
+    [HideInInspector]
+    public EnemySpawner enemySpawner ;
+
     public GameObject model;
 
     [Header("Despawn")]
@@ -18,13 +21,6 @@ public class Enemy : MonoBehaviour {
 
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.S)) {
-            Setup();
-        }
-        if (Input.GetKeyDown(KeyCode.K)) {
-            Kill();
-        }
-
         if (isDead && !isDespawned) {
             elapsedDespawnTime += Time.deltaTime;
 
@@ -55,7 +51,10 @@ public class Enemy : MonoBehaviour {
             projectile.ropeManager.ReturnProjectile();
         }
 
+        // TODO: Is this part necessary?
         model.SetActive(false);
+
+        enemySpawner.DespawnEnemy(this);
     }
 
     public void Kill() {
