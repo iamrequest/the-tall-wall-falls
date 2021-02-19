@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class NPCHealthManager : MonoBehaviour {
+[RequireComponent(typeof(Enemy))]
+public class EnemyHealthManager : MonoBehaviour {
+    private Enemy enemy;
+
     public bool isAlive = true;
     public bool isRagdollActive = false;
 
@@ -11,15 +13,9 @@ public class NPCHealthManager : MonoBehaviour {
     public List<Rigidbody> limbs;
 
     private void Awake() {
-        animator = GetComponent<Animator>();
-
+        animator = GetComponentInChildren<Animator>();
+        enemy = GetComponent<Enemy>();
         SetRagdollEnabled(isRagdollActive);
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            SetRagdollEnabled(!isRagdollActive);
-        }
     }
 
     public void SetRagdollEnabled(bool value) {
@@ -29,5 +25,10 @@ public class NPCHealthManager : MonoBehaviour {
         foreach (Rigidbody limb in limbs) {
             limb.isKinematic = !value;
         }
+    }
+
+    // Optional: Make damage more interesting than a 1-shot kill. 
+    public void TakeDamage() {
+        enemy.Kill();
     }
 }

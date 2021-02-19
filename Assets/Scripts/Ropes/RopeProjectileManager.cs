@@ -37,12 +37,12 @@ public class RopeProjectileManager : MonoBehaviour {
 
     private void OnEnable() {
         fireRopeAction.AddOnStateDownListener(ShootProjectile, inputSource);
-        fireRopeAction.AddOnStateUpListener(ReturnProjectile, inputSource);
+        fireRopeAction.AddOnStateUpListener(DoReturnProjectile, inputSource);
     }
 
     private void OnDisable() {
         fireRopeAction.RemoveOnStateDownListener(ShootProjectile, inputSource);
-        fireRopeAction.RemoveOnStateUpListener(ReturnProjectile, inputSource);
+        fireRopeAction.RemoveOnStateUpListener(DoReturnProjectile, inputSource);
     }
 
 
@@ -72,7 +72,7 @@ public class RopeProjectileManager : MonoBehaviour {
     /// <summary>
     /// Lerps the rope projectile from it's current position back to transform.position
     /// </summary>
-    private void ReturnProjectile(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
+    private void DoReturnProjectile(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
         if (ropeProjectileState == RopeProjectileState.FIRED || ropeProjectileState == RopeProjectileState.ATTACHED) {
             ropeProjectileState = RopeProjectileState.RETURNING;
 
@@ -86,6 +86,9 @@ public class RopeProjectileManager : MonoBehaviour {
             ropeProjectile.Detach();
             ropeJointManager.DestroyJoint();
         }
+    }
+    public void ReturnProjectile() {
+        DoReturnProjectile(null, SteamVR_Input_Sources.Any);
     }
 
     public void ReturnProjectileImmediate() {
@@ -137,7 +140,7 @@ public class RopeProjectileManager : MonoBehaviour {
             elapsedFiredTime += Time.fixedDeltaTime;
 
             if (elapsedFiredTime > projectileFireDuration) {
-                ReturnProjectile(null, inputSource);
+                ReturnProjectile();
             }
         }
 

@@ -13,6 +13,10 @@ public class PathManager : MonoBehaviour {
     public PathNode startNode;
     public BezierSpline selectedPathSpline;
     public List<PathNode> selectedPath = new List<PathNode>();
+    public BezierControlPointMode controlPointMode;
+
+    [Range(0f, 1f)]
+    public float t;
 
     // -- Debug
     private Gradient pathGradient = new Gradient();
@@ -68,6 +72,12 @@ public class PathManager : MonoBehaviour {
         for(int currentNodeIndex = 0; currentNodeIndex < selectedPath.Count - 1; currentNodeIndex++) {
             selectedPathSpline.AddCurve();
 
+            // -- Set the control point mode.
+            // Due to the way that I set up the node positions, free mode is the only one that looks good. I could use Aligned or Mirrored if I added more inbetween nodes, but my setup for creating nodes was kinda garbage
+            //  Free mode only is fine for now
+            selectedPathSpline.SetControlPointMode(3 * currentNodeIndex, controlPointMode);
+            selectedPathSpline.SetControlPointMode(3 * currentNodeIndex + 3, controlPointMode);
+
             // Find the index of the sub-spline we want, in the node.
             // We have to do this search, since we store multiple sub-splines in each node
             int index = selectedPath[currentNodeIndex].connectedNodes.IndexOf(selectedPath[currentNodeIndex + 1]);
@@ -75,8 +85,7 @@ public class PathManager : MonoBehaviour {
 
             Vector3 toNode = selectedPath[currentNodeIndex].transform.position - transform.position;
 
-            // Copy over each control point of the spline
-
+            // -- Copy over each control point of the spline
             // Need to do this in this weird order, because we have to set the control points after the pivot points.
             // BezierSpline.SetControlPoints should probably get refactored to include an overload method to avoid this, but oh well
             selectedPathSpline.SetControlPoint(3*currentNodeIndex + 0, toNode + subSpline.GetControlPoint(0));
@@ -107,5 +116,8 @@ public class PathManager : MonoBehaviour {
             Gizmos.color = pathGradient.Evaluate((float)currentNodeIndex / (float)selectedPath.Count);
             Gizmos.DrawWireSphere(currentNode.transform.position, 3f);
         }
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(selectedPathSpline.GetPoint(t), 5f);
     }
 }
