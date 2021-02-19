@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Simple bigraph node
+/// Simple bigraph node.
+/// Each spline that connects this node to the next should only have one curve. This is a soft limitation, imposed in PathManager. 
+///     It's just easier to evaluate the total spline path this way.
 /// </summary>
 public class PathNode : MonoBehaviour {
     public List<PathNode> connectedNodes = new List<PathNode>();

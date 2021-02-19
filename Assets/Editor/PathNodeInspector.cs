@@ -53,11 +53,12 @@ public class PathNodeInspector : Editor {
         BezierSpline bezierSpline = pathNode.gameObject.AddComponent<BezierSpline>();
         Vector3 toTarget = target.position - pathNode.transform.position;
 
-        // Control point 2 isn't being calculated properly, I think because it's relative to point 3? It's close enough, so I won't fix it
+        // Need to do this in this weird order, because we have to set the control points after the pivot points.
+        // BezierSpline.SetControlPoints should probably get refactored to include an overload method to avoid this, but oh well
         bezierSpline.SetControlPoint(0, Vector3.zero);
         bezierSpline.SetControlPoint(1, toTarget * 0.25f);
-        bezierSpline.SetControlPoint(2, -toTarget * 0.25f);
         bezierSpline.SetControlPoint(3, toTarget);
+        bezierSpline.SetControlPoint(2, toTarget * 0.25f);
 
         pathNode.connectedNodePaths.Add(bezierSpline);
     }
