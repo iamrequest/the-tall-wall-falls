@@ -1652,7 +1652,7 @@ Transform:
   m_GameObject: {fileID: 2158562995314432719}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 2158562996281951459}
   - {fileID: 2158562996427028629}
@@ -1853,7 +1853,8 @@ MonoBehaviour:
   toggleSettingsMenuAction:
     actionPath: /actions/default/in/ToggleSettingsMenu
     needsReinit: 0
-  targetTransform: {fileID: 0}
+  placementTransform: {fileID: 0}
+  placementLookatTransform: {fileID: 0}
   lerpSpeed: 0.6
   closeMenuDistance: 3
   placingMenuSFX: {fileID: 8300000, guid: 0f0034f611a21244692ad0cb74005982, type: 3}

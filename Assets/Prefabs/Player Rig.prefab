@@ -233,7 +233,7 @@ Transform:
   m_GameObject: {fileID: 1034545389117025533}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.2}
   m_Children: []
   m_Father: {fileID: 5363328647687108325}
   m_RootOrder: 1
@@ -699,7 +699,7 @@ Transform:
   m_GameObject: {fileID: 5288811496275781595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.2}
   m_Children: []
   m_Father: {fileID: 5363328647687164473}
   m_RootOrder: 2
@@ -861,7 +861,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5363328647106530752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.548}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5363328647687164473}
@@ -1638,6 +1638,11 @@ PrefabInstance:
       propertyPath: settingsMenuInteractor
       value: 
       objectReference: {fileID: 1034545389117025533}
+    - target: {fileID: 4148331537623981866, guid: 90e11855141892d41a965373ef14604a,
+        type: 3}
+      propertyPath: hideSwordOnSettingsMenuOpened
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7222901909844408401, guid: 90e11855141892d41a965373ef14604a,
         type: 3}
       propertyPath: m_Layer
@@ -1953,6 +1958,16 @@ PrefabInstance:
       propertyPath: targetTransform
       value: 
       objectReference: {fileID: 5363328647106530753}
+    - target: {fileID: 2158562995314432718, guid: 8556c6335f98392428854d1de7425549,
+        type: 3}
+      propertyPath: placementTransform
+      value: 
+      objectReference: {fileID: 5363328647106530753}
+    - target: {fileID: 2158562995314432718, guid: 8556c6335f98392428854d1de7425549,
+        type: 3}
+      propertyPath: placementLookatTransform
+      value: 
+      objectReference: {fileID: 5359401208172401361}
     - target: {fileID: 2158562995314432719, guid: 8556c6335f98392428854d1de7425549,
         type: 3}
       propertyPath: m_Name

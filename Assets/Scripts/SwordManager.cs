@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class SwordManager : MonoBehaviour {
     private PhysicsHand physicsHand;
+
+    // -- Settings menu: Hide the sword/rope if the settings menu is open
     // Can't fire a projectile if the settings menu is open
     public BoolEventChannel settingsMenuOpenedChannel;
     private bool isSettingsMenuOpen;
+    public bool hideSwordOnSettingsMenuOpened;
 
     private RopeProjectileManager ropeProjectileManager;
     public GameObject swordBlade, swordBladeBroken, swordHandle;
@@ -34,7 +37,10 @@ public class SwordManager : MonoBehaviour {
             ropeProjectileManager.ReturnProjectileImmediate();
         }
 
-        SetSwordEnabled(!isSettingsMenuOpen);
+        // Optional: Don't hide the sword if the settings menu is open. Useful for viewing sword angle without closing the menu
+        if (hideSwordOnSettingsMenuOpened) {
+            SetSwordEnabled(!isSettingsMenuOpen);
+        }
     }
 
     /// <summary>

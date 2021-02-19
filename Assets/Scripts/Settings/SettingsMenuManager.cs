@@ -16,7 +16,7 @@ public class SettingsMenuManager : MonoBehaviour {
     private Animator animator;
     public SteamVR_Action_Boolean toggleSettingsMenuAction;
 
-    public Transform targetTransform;
+    public Transform placementTransform, placementLookatTransform;
     public float lerpSpeed;
     public float closeMenuDistance;
 
@@ -66,6 +66,10 @@ public class SettingsMenuManager : MonoBehaviour {
         isPlacingMenu = true;
         isMenuOpen = false;
 
+        // Snap to target transform
+        transform.position = placementTransform.position;
+        transform.rotation = Quaternion.LookRotation(transform.position - placementLookatTransform.position, Vector3.up);
+
         audioSource.PlayOneShot(placingMenuSFX);
 
         UpdateAnimator();
@@ -94,12 +98,13 @@ public class SettingsMenuManager : MonoBehaviour {
         // If we're placing the menu, lerp towards the target transform
         if (isPlacingMenu) {
             // TODO: Also rotate to face the player
-            transform.position = Vector3.Lerp(transform.position, targetTransform.position, lerpSpeed);
+            transform.position = Vector3.Lerp(transform.position, placementTransform.position, lerpSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.position - placementLookatTransform.position, Vector3.up), lerpSpeed);
         }
 
         // Close the menu if we're far away from it
         if (isMenuOpen) {
-            if (closeMenuDistance < (transform.position - targetTransform.position).magnitude) {
+            if (closeMenuDistance < (transform.position - placementTransform.position).magnitude) {
                 CloseMenu();
             }
         }
