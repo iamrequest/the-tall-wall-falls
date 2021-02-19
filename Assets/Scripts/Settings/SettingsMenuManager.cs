@@ -110,13 +110,20 @@ public class SettingsMenuManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// TODO: Unsafe array index check
+    /// </summary>
+    /// <param name="tabIndex"></param>
     public void SetTab(int tabIndex) {
+        Debug.Log("Setting tab " + tabIndex);
         foreach (SettingsTab tab in tabs) {
             tab.page.SetActive(false);
             tab.SetTabSprite(leftInactiveTabSprite, middleInactiveTabSprite, rightInactiveTabSprite);
         }
 
+        Debug.Log(tabs[tabIndex].page.activeInHierarchy);
         tabs[tabIndex].page.SetActive(true);
         tabs[tabIndex].SetTabSprite(leftActiveTabSprite, middleActiveTabSprite, rightActiveTabSprite);
+        Debug.Log(tabs[tabIndex].page.activeInHierarchy);
     }
 }
