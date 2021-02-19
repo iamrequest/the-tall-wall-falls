@@ -6,6 +6,8 @@ using Freya;
 public class SettingsMenuSlider : MonoBehaviour {
     public SliderEventChannel sliderEventChannel;
     public Transform settingsBoard;
+
+    [HideInInspector]
     public SettingsMenuInteractor interactor;
 
     //private LinearDrive linearDrive;

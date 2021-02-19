@@ -8,6 +8,7 @@ using Valve.VR.InteractionSystem;
 /// Handles the instantiation/destruction of Spring Joints.
 /// </summary>
 public class RopeJointManager : MonoBehaviour {
+    public SliderEventChannel pullSpeedUpdatedEventChannel;
     public SteamVR_Action_Boolean pullRopeAction;
     public SteamVR_Input_Sources inputSource;
 
@@ -32,6 +33,19 @@ public class RopeJointManager : MonoBehaviour {
     private void Awake() {
         localAnchorTransform = transform;
     }
+
+    private void OnEnable() {
+        pullSpeedUpdatedEventChannel.onEventRaised += GetNewRopePullSpeed;
+    }
+
+    private void OnDisable() {
+        pullSpeedUpdatedEventChannel.onEventRaised -= GetNewRopePullSpeed;
+    }
+    private void GetNewRopePullSpeed(float t, float pullSpeed) {
+        ropePullSpeed = pullSpeed;
+    }
+
+
 
     public void AddJoint(Rigidbody target, Transform offsetTransform) {
         // Instantiate joint, and connect it to the target

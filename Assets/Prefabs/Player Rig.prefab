@@ -1559,6 +1559,11 @@ PrefabInstance:
       propertyPath: ropePullSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: pullSpeedUpdatedEventChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: 05ec3c378e970ba43bfb3415a4eb3a1c,
+        type: 2}
     - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1717,6 +1722,11 @@ PrefabInstance:
       propertyPath: ropePullSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1287052201, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: pullSpeedUpdatedEventChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: 05ec3c378e970ba43bfb3415a4eb3a1c,
+        type: 2}
     - target: {fileID: 1721469474, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
       value: 9

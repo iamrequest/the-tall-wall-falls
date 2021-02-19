@@ -11,6 +11,8 @@ using Valve.VR.InteractionSystem;
 public class SettingsMenuInteractor : MonoBehaviour {
     public SteamVR_Action_Boolean menuInteractionAction;
     public SteamVR_Input_Sources inputSource;
+
+    [HideInInspector]
     public SettingsMenuSlider hoveredSlider, grabbedSlider;
 
     [TextArea]

@@ -16,6 +16,7 @@ public class SettingsManager : MonoBehaviour {
     public SliderEventChannel swordAngleChangedChannel;
     public SliderEventChannel grappleAngleChangedChannel;
     public SliderEventChannel vignetteStrengthChangedChannel;
+    public SliderEventChannel ropePullSpeedChangedChannel;
     public SteamVRInputSourcesEventChannel steeringTransformChangedChannel;
 
     [Header("GUI")]
@@ -42,10 +43,15 @@ public class SettingsManager : MonoBehaviour {
     public SettingsMenuSlider grappleAngleSlider;
     public float grappleAngleScaled { get; private set; }
 
-    // -- GrappleAngle
+    // -- Vignette Strength
     public TextMeshProUGUI vignetteStrengthText;
     public SettingsMenuSlider vignetteStrengthSlider;
     public float vignetteStrengthScaled { get; private set; }
+
+    // -- Rope Pull Speed
+    public TextMeshProUGUI ropePullSpeedText;
+    public SettingsMenuSlider ropePullSpeedSlider;
+    public float ropePullSpeedScaled { get; private set; }
 
     // -- Steering Transform
     public SteamVR_Input_Sources steeringTransformInputSource;
@@ -55,6 +61,7 @@ public class SettingsManager : MonoBehaviour {
         swordAngleSlider.ResetSlider();
         grappleAngleSlider.ResetSlider();
         vignetteStrengthSlider.ResetSlider();
+        ropePullSpeedSlider.ResetSlider();
 
         UpdateGUI();
     }
@@ -66,6 +73,7 @@ public class SettingsManager : MonoBehaviour {
         swordAngleChangedChannel.onEventRaised += GetSwordAngle;
         grappleAngleChangedChannel.onEventRaised += GetGrappleAngle;
         vignetteStrengthChangedChannel.onEventRaised += GetVignetteStrength;
+        ropePullSpeedChangedChannel.onEventRaised += GetRopePullSpeed;
         steeringTransformChangedChannel.onEventRaised += GetSteeringTransform;
     }
 
@@ -76,6 +84,7 @@ public class SettingsManager : MonoBehaviour {
         swordAngleChangedChannel.onEventRaised -= GetSwordAngle;
         grappleAngleChangedChannel.onEventRaised -= GetGrappleAngle;
         vignetteStrengthChangedChannel.onEventRaised -= GetVignetteStrength;
+        ropePullSpeedChangedChannel.onEventRaised -= GetRopePullSpeed;
         steeringTransformChangedChannel.onEventRaised -= GetSteeringTransform;
     }
 
@@ -115,6 +124,9 @@ public class SettingsManager : MonoBehaviour {
         // -- Vignette Strength
         vignetteStrengthText.text = "Vignette Strength: " + (vignetteStrengthScaled * 100).ToString("F0") + "%";
 
+        // -- Rope Pull Speed
+        ropePullSpeedText.text = "Rope Pull Speed: " + (ropePullSpeedScaled).ToString("F1");
+
         // -- Steering Transform 
         switch (steeringTransformInputSource) {
             case SteamVR_Input_Sources.LeftHand:
@@ -146,6 +158,9 @@ public class SettingsManager : MonoBehaviour {
     }
     public void GetVignetteStrength(float t, float vignetteStrength) {
         vignetteStrengthScaled = vignetteStrength;
+    }
+    public void GetRopePullSpeed(float t, float pullSpeed) {
+        ropePullSpeedScaled = pullSpeed;
     }
     public void GetSteeringTransform(SteamVR_Input_Sources inputSource) {
         steeringTransformInputSource = inputSource;
