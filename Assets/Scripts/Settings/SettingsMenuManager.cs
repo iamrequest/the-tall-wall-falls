@@ -10,6 +10,7 @@ using Valve.VR.InteractionSystem;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(AudioSource))]
 public class SettingsMenuManager : MonoBehaviour {
+    [Header("General Menu Management")]
     public BoolEventChannel menuOpenedChannel;
     private bool isPlacingMenu = false, isMenuOpen = false;
     private Animator animator;
@@ -19,12 +20,21 @@ public class SettingsMenuManager : MonoBehaviour {
     public float lerpSpeed;
     public float closeMenuDistance;
 
+
     private AudioSource audioSource;
     public AudioClip placingMenuSFX, menuOpenSFX, menuClosedSFX;
+
+    [Header("Tabs")]
+    public List<SettingsTab> tabs;
+    public int intialTabIndex;
+    public Sprite leftActiveTabSprite, middleActiveTabSprite, rightActiveTabSprite;
+    public Sprite leftInactiveTabSprite, middleInactiveTabSprite, rightInactiveTabSprite;
 
     private void Awake() {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+
+        SetTab(intialTabIndex);
     }
 
     private void OnEnable() {
@@ -81,16 +91,27 @@ public class SettingsMenuManager : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        // TODO: Close menu at distance?
         // If we're placing the menu, lerp towards the target transform
         if (isPlacingMenu) {
+            // TODO: Also rotate to face the player
             transform.position = Vector3.Lerp(transform.position, targetTransform.position, lerpSpeed);
         }
 
+        // Close the menu if we're far away from it
         if (isMenuOpen) {
             if (closeMenuDistance < (transform.position - targetTransform.position).magnitude) {
                 CloseMenu();
             }
         }
+    }
+
+    public void SetTab(int tabIndex) {
+        foreach (SettingsTab tab in tabs) {
+            tab.page.SetActive(false);
+            tab.SetTabSprite(leftInactiveTabSprite, middleInactiveTabSprite, rightInactiveTabSprite);
+        }
+
+        tabs[tabIndex].page.SetActive(true);
+        tabs[tabIndex].SetTabSprite(leftActiveTabSprite, middleActiveTabSprite, rightActiveTabSprite);
     }
 }

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwordManager : MonoBehaviour
-{
+public class SwordManager : MonoBehaviour {
+    private PhysicsHand physicsHand;
     // Can't fire a projectile if the settings menu is open
     public BoolEventChannel settingsMenuOpenedChannel;
     private bool isSettingsMenuOpen;
@@ -15,6 +15,7 @@ public class SwordManager : MonoBehaviour
 
     private void Awake() {
         ropeProjectileManager = GetComponentInChildren<RopeProjectileManager>();
+        physicsHand = GetComponentInParent<PhysicsHand>();
         SetSwordEnabled(true);
     }
     private void OnEnable() {
@@ -44,6 +45,10 @@ public class SwordManager : MonoBehaviour
         swordBlade.SetActive(isSwordEnabled);
         swordBladeBroken.SetActive(isSwordEnabled);
         swordHandle.SetActive(isSwordEnabled);
+
+        // This is a hacky workaround to fix a bug where the physics hand touch count gets out of sync when the settings menu gets opened/closed
+        //  This is a problem with SetActive() happening, and PhysicsHand.OnCollisionExit() not happening
+        physicsHand.ResetTouchCount();
 
         ropeProjectileManager.enabled = isSwordEnabled;
 
