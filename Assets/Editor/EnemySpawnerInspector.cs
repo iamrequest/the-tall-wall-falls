@@ -32,6 +32,15 @@ public class EnemySpawnerInspector : Editor {
                 enemySpawner.DespawnAllEnemies();
             }
             EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Start Game")) {
+                enemySpawner.gameStateEventChannel.RaiseEvent(GameStateEventChannel.GameState.STARTED);
+            }
+            if (GUILayout.Button("Stop Game")) {
+                enemySpawner.gameStateEventChannel.RaiseEvent(GameStateEventChannel.GameState.STOPPED);
+            }
+            EditorGUILayout.EndHorizontal();
         }
     }
 }

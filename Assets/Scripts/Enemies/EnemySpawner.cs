@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour {
     public GameStateEventChannel gameStateEventChannel;
 
     public GameObject enemyPrefab;
+    public Gate gate;
     public List<Enemy> enemies;
     public List<PathNode> startNodes;
 
@@ -51,6 +52,7 @@ public class EnemySpawner : MonoBehaviour {
             case GameStateEventChannel.GameState.STOPPED:
             case GameStateEventChannel.GameState.GAME_OVER:
                 KillAllEnemies();
+                isSpawning = false;
                 break;
         }
     }
@@ -82,8 +84,11 @@ public class EnemySpawner : MonoBehaviour {
     public void SpawnEnemy() {
         GameObject enemyGameobject = Instantiate(enemyPrefab);
         Enemy enemy = enemyGameobject.GetComponent<Enemy>();
-        enemy.enemySpawner = this;
         enemies.Add(enemy);
+
+        // -- Configure enemy
+        enemy.enemySpawner = this;
+        enemy.gate = gate;
 
         // Pick a random start node from our list, and send the enemy on its way
         enemy.pathWalker.pathManager.startNode = startNodes[Random.Range(0, startNodes.Count)];

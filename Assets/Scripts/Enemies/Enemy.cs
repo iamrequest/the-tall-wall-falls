@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour {
     public EnemyHealthManager healthManager;
     [HideInInspector]
     public EnemySpawner enemySpawner ;
+    [HideInInspector]
+    public Gate gate;
 
     public GameObject model;
 
@@ -65,4 +67,9 @@ public class Enemy : MonoBehaviour {
         healthManager.SetRagdollEnabled(true);
     }
 
+
+    // TODO: Lerp into position?
+    public void StartAttackingGate() {
+        gate.attackingEnemies.Add(this);
+    }
 }
