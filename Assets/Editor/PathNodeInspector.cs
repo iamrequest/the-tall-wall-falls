@@ -58,7 +58,7 @@ public class PathNodeInspector : Editor {
         bezierSpline.SetControlPoint(0, Vector3.zero);
         bezierSpline.SetControlPoint(1, toTarget * 0.25f);
         bezierSpline.SetControlPoint(3, toTarget);
-        bezierSpline.SetControlPoint(2, toTarget * 0.25f);
+        bezierSpline.SetControlPoint(2, toTarget * 0.75f);
 
         pathNode.connectedNodePaths.Add(bezierSpline);
     }

@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour {
     public EnemySpawner enemySpawner ;
     [HideInInspector]
     public Gate gate;
+    public Animator animator;
+
+    [Range(0f, 3f)]
+    public float animationSpeed = 1f;
 
     public GameObject model;
 
@@ -19,16 +23,23 @@ public class Enemy : MonoBehaviour {
     public float despawnDelay;
     private float elapsedDespawnTime;
 
-    public bool isDead, isDespawned;
+    public bool isDead, isDespawned, isAttacking;
 
 
     private void Update() {
+        animator.speed = animationSpeed;
+
         if (isDead && !isDespawned) {
             elapsedDespawnTime += Time.deltaTime;
 
             if (elapsedDespawnTime > despawnDelay) {
                 Despawn();
             }
+        }
+
+        if (isAttacking) {
+            // Rotate model to face the gate
+            model.transform.rotation = Quaternion.Lerp(Quaternion.LookRotation(gate.transform.position - transform.position, Vector3.up), transform.rotation, pathWalker.turnSpeed);
         }
     }
     private void Awake() {
@@ -39,6 +50,7 @@ public class Enemy : MonoBehaviour {
     public void Setup() {
         isDead = false;
         isDespawned = false;
+        isAttacking = false;
         elapsedDespawnTime = 0f;
 
         model.SetActive(true);
@@ -70,6 +82,11 @@ public class Enemy : MonoBehaviour {
 
     // TODO: Lerp into position?
     public void StartAttackingGate() {
+        isAttacking = true;
         gate.attackingEnemies.Add(this);
+        animator.SetTrigger("isAttacking");
+
+        animator.speed = 1f;
+        animationSpeed = 1f;
     }
 }

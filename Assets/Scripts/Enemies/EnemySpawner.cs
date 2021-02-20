@@ -26,6 +26,7 @@ public class EnemySpawner : MonoBehaviour {
     [Range(0, 50)]
     public int maxNumEnemies;
 
+    [Range(10, 300)]
     public float medianPathWalkTime;
     [Range(0f, 1f)]
     public float pathWalkTimeVariancePercentage;

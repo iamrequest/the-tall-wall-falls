@@ -22,5 +22,11 @@ public class PathManagerInspector : Editor {
             pathManager.CalculatePathSpline();
             EditorUtility.SetDirty(pathManager);
         }
+
+        if (GUILayout.Button("Append Position")) {
+            Undo.RecordObject(pathManager, "Append position");
+            pathManager.AppendNode(pathManager.tempAppendedTransform.position);
+            EditorUtility.SetDirty(pathManager);
+        }
     }
 }

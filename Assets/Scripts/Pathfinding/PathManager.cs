@@ -10,13 +10,14 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(BezierSpline))]
 public class PathManager : MonoBehaviour {
-    public PathNode startNode;
+    [HideInInspector]
     public BezierSpline selectedPathSpline;
+
+    public PathNode startNode;
     public List<PathNode> selectedPath = new List<PathNode>();
     public BezierControlPointMode controlPointMode;
-
-    [Range(0f, 1f)]
-    public float t;
+    public Transform tempAppendedTransform;
+    public GameObject finalNodePathGameObject;
 
     // -- Debug
     private Gradient pathGradient = new Gradient();
@@ -58,6 +59,34 @@ public class PathManager : MonoBehaviour {
         if (selectedPath.Count >= maxPathLength) {
             Debug.LogWarning("Max path length reached, there may be a circular sub graph somewhere");
         }
+    }
+
+    public void AppendNode(Vector3 position) {
+        // Create the new PathNode on a child gameobject to avoid clutter
+        DestroyImmediate(finalNodePathGameObject);
+        finalNodePathGameObject = new GameObject();
+        finalNodePathGameObject.transform.parent = transform;
+
+        PathNode appendedNode = finalNodePathGameObject.AddComponent<PathNode>();
+        BezierSpline appendedSpline = finalNodePathGameObject.AddComponent<BezierSpline>();
+        Vector3 previousNodeToPosition = position - selectedPath[selectedPath.Count - 1].transform.position;
+        Vector3 thisToPosition = position - transform.position;
+
+        // Update end node markers
+        selectedPath[selectedPath.Count - 1].isEndNode = false;
+        appendedNode.isEndNode = true;
+
+        // Add the new node/spline
+        selectedPath[selectedPath.Count - 1].connectedNodes.Add(appendedNode);
+        selectedPath[selectedPath.Count - 1].connectedNodePaths.Add(appendedSpline);
+        selectedPath.Add(appendedNode);
+
+        // -- TODO: This is broken
+        appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 4, selectedPath[selectedPath.Count - 2].transform.position);
+        appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 1, position);
+
+        //appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 3, position - transform.position);
+        //appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 2, position - transform.position);
     }
 
     /// <summary>
@@ -116,8 +145,5 @@ public class PathManager : MonoBehaviour {
             Gizmos.color = pathGradient.Evaluate((float)currentNodeIndex / (float)selectedPath.Count);
             Gizmos.DrawWireSphere(currentNode.transform.position, 3f);
         }
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(selectedPathSpline.GetPoint(t), 5f);
     }
 }

@@ -15,6 +15,9 @@ public class Gate : MonoBehaviour {
 
     public List<Enemy> attackingEnemies;
 
+    [Tooltip("A random place in this area will be where the enemy will walk to in order to attack")]
+    public Transform areaToAttack;
+
     [field:SerializeField]
     public float health { get; private set; }
     public float maxHealth = 100f;
