@@ -2553,6 +2553,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1274908982, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: controlPointRightOffset1
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274908982, guid: 90e11855141892d41a965373ef14604a, type: 3}
+      propertyPath: controlPointRightOffset2
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1287052196, guid: 90e11855141892d41a965373ef14604a, type: 3}
       propertyPath: m_Layer
       value: 10
