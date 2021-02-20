@@ -2499,6 +2499,8 @@ MonoBehaviour:
     type: 2}
   ropePullSpeedChangedChannel: {fileID: 11400000, guid: 05ec3c378e970ba43bfb3415a4eb3a1c,
     type: 2}
+  gateHealthChangedChannel: {fileID: 11400000, guid: 12874dd5cb4867d40b7bd2b01567f40a,
+    type: 2}
   steeringTransformChangedChannel: {fileID: 11400000, guid: e8a0f889c19190346898233b405ae1ee,
     type: 2}
   gameStateChangedChannel: {fileID: 11400000, guid: 6dbc3d5b4358ec54c9560f3cd4c6ebf7,
@@ -2532,6 +2534,7 @@ MonoBehaviour:
   gameStoppedColor: {r: 0.54901963, g: 0.81960785, b: 0.34509805, a: 1}
   numKillsText: {fileID: 1705535951427496857}
   timeAliveText: {fileID: 630605283873347655}
+  gateHeathText: {fileID: 1203109626026562627}
 --- !u!114 &2158562995314432718
 MonoBehaviour:
   m_ObjectHideFlags: 0

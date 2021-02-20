@@ -12,6 +12,7 @@ using UnityEngine;
 public class Gate : MonoBehaviour {
     public GameStateEventChannel.GameState gameState { get; private set; } = GameStateEventChannel.GameState.STOPPED;
     public GameStateEventChannel gameStateEventChannel;
+    public SliderEventChannel gateHealthEventChannel;
 
     public List<Enemy> attackingEnemies;
 
@@ -36,6 +37,10 @@ public class Gate : MonoBehaviour {
         if (gameState == GameStateEventChannel.GameState.STARTED) {
             health -= damagePerEnemyPerSecond * attackingEnemies.Count * Time.deltaTime;
 
+            if (attackingEnemies.Count > 0) {
+                gateHealthEventChannel.RaiseEvent(health / maxHealth, health);
+            }
+
             if (health <= 0) {
                 gameStateEventChannel.RaiseEvent(GameStateEventChannel.GameState.GAME_OVER);
             }
@@ -48,6 +53,7 @@ public class Gate : MonoBehaviour {
 
         if (gameState == GameStateEventChannel.GameState.STARTED) {
             health = maxHealth;
+            gateHealthEventChannel.RaiseEvent(health / maxHealth, health);
         }
     }
 }

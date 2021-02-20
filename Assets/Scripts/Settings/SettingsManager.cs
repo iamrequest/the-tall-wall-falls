@@ -18,6 +18,7 @@ public class SettingsManager : MonoBehaviour {
     public SliderEventChannel grappleAngleChangedChannel;
     public SliderEventChannel vignetteStrengthChangedChannel;
     public SliderEventChannel ropePullSpeedChangedChannel;
+    public SliderEventChannel gateHealthChangedChannel;
     public SteamVRInputSourcesEventChannel steeringTransformChangedChannel;
     public GameStateEventChannel gameStateChangedChannel;
 
@@ -84,6 +85,10 @@ public class SettingsManager : MonoBehaviour {
     public TextMeshProUGUI timeAliveText;
     public float timeAlive { get; private set; }
 
+
+    public TextMeshProUGUI gateHeathText;
+    public float gateHealthPercentage { get; private set; } = 1f;
+
     private void Start() {
         swordAngleSlider.ResetSlider();
         grappleAngleSlider.ResetSlider();
@@ -112,6 +117,7 @@ public class SettingsManager : MonoBehaviour {
         steeringTransformChangedChannel.onEventRaised += GetSteeringTransform;
         gameStateChangedChannel.onEventRaised += UpdateGameState;
         enemyKillsChangedChannel.onEventRaised += UpdateEnemiesKilled;
+        gateHealthChangedChannel.onEventRaised += UpdateGateHealth;
     }
 
     private void OnDisable() {
@@ -125,6 +131,7 @@ public class SettingsManager : MonoBehaviour {
         steeringTransformChangedChannel.onEventRaised -= GetSteeringTransform;
         gameStateChangedChannel.onEventRaised -= UpdateGameState;
         enemyKillsChangedChannel.onEventRaised -= UpdateEnemiesKilled;
+        gateHealthChangedChannel.onEventRaised -= UpdateGateHealth;
     }
 
     public void UpdateGUI() {
@@ -204,9 +211,9 @@ public class SettingsManager : MonoBehaviour {
                 break;
         }
 
-        numKillsText.text = "Kills - " + numEnemiesKilled;
-
-        // TODO: Gate health
+        // Game Stats
+        numKillsText.text = "Kills: " + numEnemiesKilled;
+        gateHeathText.text = "Gate Health: " + (gateHealthPercentage * 100).ToString("F0") + "%";
     }
 
     private void UpdateTimeAliveText() {
@@ -260,5 +267,9 @@ public class SettingsManager : MonoBehaviour {
 
     public void UpdateEnemiesKilled() {
         numEnemiesKilled++;
+    }
+
+    public void UpdateGateHealth(float t, float value) {
+        gateHealthPercentage = t;
     }
 }
