@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class Damageable : MonoBehaviour {
     public UnityEvent onDamaged;
     private AudioSource audioSource;
-    public AudioClip damagedSFX;
+    public List<AudioClip> damagedSFX;
 
     private void Awake() {
         audioSource = GetComponent<AudioSource>();
@@ -15,6 +15,6 @@ public class Damageable : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         onDamaged.Invoke();
-        audioSource.PlayOneShot(damagedSFX);
+        audioSource.PlayOneShot(damagedSFX[Random.Range(0, damagedSFX.Count)]);
     }
 }

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour {
+    private AudioSource audioSource;
+
     [HideInInspector]
     public EnemyPathWalker pathWalker;
     [HideInInspector]
@@ -17,6 +20,7 @@ public class Enemy : MonoBehaviour {
     public float animationSpeed = 1f;
 
     public GameObject model;
+    public List<AudioClip> deathSFX;
 
     [Header("Despawn")]
     [Range(0f, 500f)]
@@ -45,6 +49,7 @@ public class Enemy : MonoBehaviour {
     private void Awake() {
         pathWalker = GetComponent<EnemyPathWalker>();
         healthManager = GetComponent<EnemyHealthManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Setup() {
@@ -72,11 +77,15 @@ public class Enemy : MonoBehaviour {
     }
 
     public void Kill() {
-        elapsedDespawnTime = 0f;
-        isDead = true;
+        if (!isDead) {
+            elapsedDespawnTime = 0f;
+            isDead = true;
 
-        pathWalker.isWalkingPath = false;
-        healthManager.SetRagdollEnabled(true);
+            pathWalker.isWalkingPath = false;
+            healthManager.SetRagdollEnabled(true);
+
+            audioSource.PlayOneShot(deathSFX[Random.Range(0, deathSFX.Count)]);
+        }
     }
 
 

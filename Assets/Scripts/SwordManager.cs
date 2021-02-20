@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class SwordManager : MonoBehaviour {
     private PhysicsHand physicsHand;
+    private AudioSource audioSource;
 
     // -- Settings menu: Hide the sword/rope if the settings menu is open
     // Can't fire a projectile if the settings menu is open
@@ -16,9 +17,12 @@ public class SwordManager : MonoBehaviour {
     public GameObject swordBlade, swordBladeBroken, swordHandle;
     public GameObject settingsMenuInteractor;
 
+    public List<AudioClip> swordImpactSFX;
+
     private void Awake() {
         ropeProjectileManager = GetComponentInChildren<RopeProjectileManager>();
         physicsHand = GetComponentInParent<PhysicsHand>();
+        audioSource = GetComponent<AudioSource>();
         SetSwordEnabled(true);
     }
     private void OnEnable() {
@@ -59,5 +63,9 @@ public class SwordManager : MonoBehaviour {
         ropeProjectileManager.enabled = isSwordEnabled;
 
         settingsMenuInteractor.SetActive(!isSwordEnabled);
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        audioSource.PlayOneShot(swordImpactSFX[Random.Range(0, swordImpactSFX.Count)]);
     }
 }

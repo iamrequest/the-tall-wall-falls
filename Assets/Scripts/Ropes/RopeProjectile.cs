@@ -6,7 +6,10 @@ using UnityEngine;
 /// Listens for collisions, and sends updates to RopeProjectileManager
 /// Assumption: The rope manager component exists in the parent gameobject
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class RopeProjectile : MonoBehaviour {
+    [HideInInspector]
+    public AudioSource audioSource;
     private Rigidbody m_rb;
     public Rigidbody rb {
         get {
@@ -36,6 +39,7 @@ public class RopeProjectile : MonoBehaviour {
 
     private void Awake() {
         m_rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         m_collider = GetComponent<Collider>();
         m_ropeManager = GetComponentInParent<RopeProjectileManager>();
     }
@@ -57,7 +61,6 @@ public class RopeProjectile : MonoBehaviour {
         Attach(collision.collider.transform, collision.GetContact(0).normal);
     }
 
-    // TODO: Lerp towards the collision normal rotation
     public void Attach(Transform target, Vector3 collisionNormal) {
         projectileCollider.enabled = false;
 

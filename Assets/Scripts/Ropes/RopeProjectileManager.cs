@@ -10,6 +10,7 @@ using Valve.VR.InteractionSystem;
 ///
 /// TODO: Fix the projectile so that its scale stays the same after un-parenting it from this transform
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class RopeProjectileManager : MonoBehaviour {
     public SteamVR_Action_Boolean fireRopeAction;
     public SteamVR_Input_Sources inputSource;
@@ -30,9 +31,15 @@ public class RopeProjectileManager : MonoBehaviour {
     private Quaternion initialReturnRotation;
     public float elapsedReturnTime, elapsedFiredTime;
 
+    private AudioSource audioSource;
+    public AudioClip projectileFiredSFX;
+    public AudioClip projectileAttachedSFX;
+    public AudioClip projectileCollisionSFX;
+
     private void Awake() {
         ropeJointManager = GetComponent<RopeJointManager>();
         ropeRenderer = GetComponentInChildren<RopeRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable() {
@@ -67,6 +74,9 @@ public class RopeProjectileManager : MonoBehaviour {
         ropeProjectile.rb.isKinematic = false;
         ropeProjectile.rb.velocity = Vector3.zero;
         ropeProjectile.rb.AddForce(transform.forward * maxProjectileDistance / projectileFireDuration, ForceMode.VelocityChange);
+
+        // Play SFX
+        audioSource.PlayOneShot(projectileFiredSFX);
     }
 
     /// <summary>
@@ -112,6 +122,7 @@ public class RopeProjectileManager : MonoBehaviour {
             ropeProjectileState = RopeProjectileState.ATTACHED;
 
             ropeJointManager.AddJoint(targetRB, ropeProjectile.transform);
+            ropeProjectile.audioSource.PlayOneShot(projectileAttachedSFX);
         } else {
             // If that fails, try to find it in the parent(s)
             targetRB = ropeProjectile.transform.parent.GetComponentInParent<Rigidbody>();
@@ -119,6 +130,10 @@ public class RopeProjectileManager : MonoBehaviour {
                 ropeProjectileState = RopeProjectileState.ATTACHED;
 
                 ropeJointManager.AddJoint(targetRB, ropeProjectile.transform);
+                ropeProjectile.audioSource.PlayOneShot(projectileAttachedSFX);
+            } else {
+                // No joint created, play a different SFX
+                audioSource.PlayOneShot(projectileCollisionSFX);
             }
         }
     }

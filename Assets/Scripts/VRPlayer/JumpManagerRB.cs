@@ -9,8 +9,10 @@ using Valve.VR.InteractionSystem;
 ///     https://bitbucket.org/catlikecodingunitytutorials/movement-02-physics/src/master/Assets/Scripts/MovingSphere.cs
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
 public class JumpManagerRB : MonoBehaviour {
     private Rigidbody rb;
+    private AudioSource audioSource;
     public SteamVR_Action_Boolean jumpAction;
 
     [Range(0f, 10f)]
@@ -19,6 +21,11 @@ public class JumpManagerRB : MonoBehaviour {
     public float wallJumpHeight;
     private bool jumpBuffered;
     public int groundCount = 0, nonGroundCount = 0;
+
+    public AudioClip jumpSFX;
+    public AudioClip rbCollisionSFX;
+
+
 
     public bool isTouchingNonGround {
         get {
@@ -61,6 +68,7 @@ public class JumpManagerRB : MonoBehaviour {
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         OnValidate();
     }
 
@@ -95,6 +103,8 @@ public class JumpManagerRB : MonoBehaviour {
                 jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * wallJumpHeight);
                 rb.velocity += Vector3.up * jumpSpeed;
             }
+
+            audioSource.PlayOneShot(jumpSFX);
         }
 
         UnsetGroundCheck();
@@ -145,6 +155,7 @@ public class JumpManagerRB : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         EvaluateCollision(collision);
+        audioSource.PlayOneShot(rbCollisionSFX);
     }
 
     private void OnCollisionStay(Collision collision) {

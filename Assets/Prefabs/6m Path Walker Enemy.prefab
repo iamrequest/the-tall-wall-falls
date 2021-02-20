@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5970196569098087082}
   - component: {fileID: 3752485247736733772}
   - component: {fileID: 7708078699279104152}
+  - component: {fileID: 5348940821786415750}
   m_Layer: 13
   m_Name: 6m Path Walker Enemy
   m_TagString: Untagged
@@ -66,11 +67,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fa5838ae1d322a4ab8af5bc6640274d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNode: {fileID: 0}
   selectedPathSpline: {fileID: 5970196569098087084}
+  startNode: {fileID: 0}
   selectedPath: []
   controlPointMode: 0
-  t: 0
+  tempAppendedTransform: {fileID: 0}
+  finalNodePathGameObject: {fileID: 0}
 --- !u!114 &5970196569098087082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +123,11 @@ MonoBehaviour:
   animator: {fileID: 7252011043546065152}
   animationSpeed: 1
   model: {fileID: 4111696192764144064}
+  deathSFX:
+  - {fileID: 8300000, guid: c8b56ae98f7d78d42b5bd55f5e860183, type: 3}
+  - {fileID: 8300000, guid: 9b59a4de5015c4e4a95122c9be9ccac8, type: 3}
+  - {fileID: 8300000, guid: d754b97cd60b2c64c9b6c512f1371f80, type: 3}
+  - {fileID: 8300000, guid: c25f7d10f6770114c9e42ab7c6239436, type: 3}
   despawnDelay: 1
   isDead: 0
   isDespawned: 0
@@ -151,6 +158,102 @@ MonoBehaviour:
   - {fileID: 5970196567769042647}
   - {fileID: 5970196569265075414}
   - {fileID: 5970196568619603901}
+--- !u!82 &5348940821786415750
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5970196569098087086}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &5970196568551316829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187,6 +290,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
       propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 7708078699279104152}
@@ -198,6 +305,34 @@ PrefabInstance:
       propertyPath: onDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3271d14072c38b049849565d6b9fa355, type: 3}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3271d14072c38b049849565d6b9fa355, type: 3}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3271d14072c38b049849565d6b9fa355, type: 3}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3271d14072c38b049849565d6b9fa355, type: 3}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5463d406aea949248994ab769890e215, type: 3}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 634a6880ae36fbb408b74692ce13deb2, type: 3}
+    - target: {fileID: 685867036, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
+      propertyPath: damagedSFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d0f346b0c570004ca0a8f591be7d7c4, type: 3}
     - target: {fileID: 935647949, guid: ca8a2804b70acce4bba837b290d484da, type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: -0.007519983
