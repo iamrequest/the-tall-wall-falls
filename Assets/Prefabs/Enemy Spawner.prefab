@@ -537,6 +537,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467c2f47634997a45a2e123c4c736828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <gameState>k__BackingField: 0
+  gameStateEventChannel: {fileID: 11400000, guid: 6dbc3d5b4358ec54c9560f3cd4c6ebf7,
+    type: 2}
   enemyPrefab: {fileID: 5970196569098087086, guid: d3f7ceda9cd9f0c41aa224edfc9e4edd,
     type: 3}
   enemies: []
@@ -547,7 +550,7 @@ MonoBehaviour:
   timeSinceLastSpawn: 0
   intialSpawnDelay: 1
   isSpawning: 0
-  maxNumEnemies: 0
+  maxNumEnemies: 5
   medianPathWalkTime: 0
   pathWalkTimeVariance: 0
 --- !u!1 &438778403691504766

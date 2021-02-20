@@ -6,6 +6,10 @@ using UnityEngine;
 /// TODO: Object pool
 /// </summary>
 public class EnemySpawner : MonoBehaviour {
+    [field:SerializeField]
+    public GameStateEventChannel.GameState gameState { get; private set; } = GameStateEventChannel.GameState.STOPPED;
+    public GameStateEventChannel gameStateEventChannel;
+
     public GameObject enemyPrefab;
     public List<Enemy> enemies;
     public List<PathNode> startNodes;
@@ -22,11 +26,32 @@ public class EnemySpawner : MonoBehaviour {
     public int maxNumEnemies;
 
     public float medianPathWalkTime;
-    public float pathWalkTimeVariance;
+    [Range(0f, 1f)]
+    public float pathWalkTimeVariancePercentage;
 
     private void Awake() {
         if (startNodes.Count == 0) {
             Debug.LogWarning("No start spawn nodes defined in the enemy spawner. Did you forget to assign them?");
+        }
+    }
+    private void OnEnable() {
+        gameStateEventChannel.onEventRaised += UpdateGameState;
+    }
+
+    private void OnDisable() {
+        gameStateEventChannel.onEventRaised -= UpdateGameState;
+    }
+
+
+    public void UpdateGameState(GameStateEventChannel.GameState gameState) {
+        switch (gameState) {
+            case GameStateEventChannel.GameState.STARTED:
+                StartSpawning();
+                break;
+            case GameStateEventChannel.GameState.STOPPED:
+            case GameStateEventChannel.GameState.GAME_OVER:
+                KillAllEnemies();
+                break;
         }
     }
 
@@ -57,11 +82,12 @@ public class EnemySpawner : MonoBehaviour {
     public void SpawnEnemy() {
         GameObject enemyGameobject = Instantiate(enemyPrefab);
         Enemy enemy = enemyGameobject.GetComponent<Enemy>();
+        enemy.enemySpawner = this;
         enemies.Add(enemy);
 
         // Pick a random start node from our list, and send the enemy on its way
         enemy.pathWalker.pathManager.startNode = startNodes[Random.Range(0, startNodes.Count)];
-        enemy.pathWalker.pathWalkDuration = medianPathWalkTime + Random.Range(-pathWalkTimeVariance, pathWalkTimeVariance);
+        enemy.pathWalker.pathWalkDuration = medianPathWalkTime + Random.Range(-pathWalkTimeVariancePercentage * medianPathWalkTime, pathWalkTimeVariancePercentage * medianPathWalkTime);
 
         enemy.Setup();
     }
