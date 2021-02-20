@@ -18,12 +18,18 @@ public class SettingsManager : MonoBehaviour {
     public SliderEventChannel vignetteStrengthChangedChannel;
     public SliderEventChannel ropePullSpeedChangedChannel;
     public SteamVRInputSourcesEventChannel steeringTransformChangedChannel;
+    public GameStateEventChannel gameStateChangedChannel;
 
-    [Header("GUI")]
+    [Header("Sprites")]
     public Sprite spriteEnabled, spriteDisabled;
+    public Sprite spritePlay, spriteStop;
     public Sprite spriteHMD, spriteLeftHand, spriteRightHand;
 
+    // ----------------------
+    // -- Page 1: Settings -- 
+    // ----------------------
     // -- Vignette
+    [Header("GUI - Page 1")]
     public TextMeshProUGUI vignetteEnabledText;
     public Image vignetteEnabledImage;
     private bool vignetteEnabled = true;
@@ -57,6 +63,19 @@ public class SettingsManager : MonoBehaviour {
     public SteamVR_Input_Sources steeringTransformInputSource;
     public Image steeringTransformImage;
 
+
+
+    // ------------------
+    // -- Page 2: Game -- 
+    // ------------------
+    [Header("GUI - Page 2")]
+    public Image gameStartStopButton;
+    public Image gameStartStopButtonBG;
+    public TextMeshProUGUI gameStateText, gameStartStopButtonText;
+    public Color gameStartedColor, gameStoppedColor;
+    public GameStateEventChannel.GameState gameState { get; private set;}
+
+
     private void Start() {
         swordAngleSlider.ResetSlider();
         grappleAngleSlider.ResetSlider();
@@ -75,6 +94,7 @@ public class SettingsManager : MonoBehaviour {
         vignetteStrengthChangedChannel.onEventRaised += GetVignetteStrength;
         ropePullSpeedChangedChannel.onEventRaised += GetRopePullSpeed;
         steeringTransformChangedChannel.onEventRaised += GetSteeringTransform;
+        gameStateChangedChannel.onEventRaised += UpdateGameState;
     }
 
     private void OnDisable() {
@@ -86,6 +106,7 @@ public class SettingsManager : MonoBehaviour {
         vignetteStrengthChangedChannel.onEventRaised -= GetVignetteStrength;
         ropePullSpeedChangedChannel.onEventRaised -= GetRopePullSpeed;
         steeringTransformChangedChannel.onEventRaised -= GetSteeringTransform;
+        gameStateChangedChannel.onEventRaised -= UpdateGameState;
     }
 
     public void UpdateGUI() {
@@ -139,6 +160,31 @@ public class SettingsManager : MonoBehaviour {
                 steeringTransformImage.sprite = spriteHMD;
                 break;
         }
+
+        // -- Game State
+        switch (gameState) {
+            case GameStateEventChannel.GameState.STARTED:
+                gameStateText.text = "Game in progress";
+                gameStartStopButtonText.text = "Stop Game";
+                gameStartStopButtonBG.color = gameStartedColor;
+                gameStartStopButton.sprite = spriteStop;
+                break;
+            case GameStateEventChannel.GameState.STOPPED:
+                gameStateText.text = "Game not in progress";
+                gameStartStopButtonText.text = "Start Game";
+                gameStartStopButtonBG.color = gameStoppedColor;
+                gameStartStopButton.sprite = spritePlay;
+                break;
+            case GameStateEventChannel.GameState.GAME_OVER:
+                gameStateText.text = "Game over";
+                gameStartStopButtonText.text = "Restart Game";
+                gameStartStopButtonBG.color = gameStoppedColor;
+                gameStartStopButton.sprite = spritePlay;
+                break;
+            default:
+                Debug.LogWarning("Unexpected game state received: " + gameState);
+                break;
+        }
     }
 
 
@@ -164,5 +210,18 @@ public class SettingsManager : MonoBehaviour {
     }
     public void GetSteeringTransform(SteamVR_Input_Sources inputSource) {
         steeringTransformInputSource = inputSource;
+    }
+
+    public void UpdateGameState(GameStateEventChannel.GameState gameState) {
+        this.gameState = gameState;
+    }
+    public void ToggleGameState() {
+        if (gameState == GameStateEventChannel.GameState.STARTED) {
+            this.gameState = GameStateEventChannel.GameState.STOPPED;
+        } else {
+            this.gameState = GameStateEventChannel.GameState.STARTED;
+        }
+
+        this.gameStateChangedChannel.RaiseEvent(this.gameState);
     }
 }
