@@ -1741,8 +1741,8 @@ MonoBehaviour:
   startTransform: {fileID: 8963848121277487229}
   endTransform: {fileID: 54064036079107425}
   minValue: 1
-  maxValue: 10
-  initialValue: 2
+  maxValue: 15
+  initialValue: 5
   t: 0
 --- !u!1 &1652396993549330090
 GameObject:

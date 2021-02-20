@@ -107,8 +107,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   controlPointForwardOffset1: 0.234
   controlPointForwardOffset2: 0.75
-  controlPointRightOffset1: 0.15
-  controlPointRightOffset2: -0.18
+  controlPointRightOffset1: 1
+  controlPointRightOffset2: -1
 --- !u!114 &1274908981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +364,9 @@ MonoBehaviour:
   projectileReturnDuration: 0.19
   elapsedReturnTime: 0
   elapsedFiredTime: 0
+  projectileFiredSFX: {fileID: 0}
+  projectileAttachedSFX: {fileID: 0}
+  projectileCollisionSFX: {fileID: 0}
 --- !u!114 &1287052201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,10 +379,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dd9570723275b40bd60ac2d11962c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pullSpeedUpdatedEventChannel: {fileID: 0}
   pullRopeAction:
     actionPath: /actions/default/in/GrabGrip
     needsReinit: 0
   inputSource: 1
+  playerRB: {fileID: 0}
   joint: {fileID: 0}
   localAnchorTransform: {fileID: 0}
   targetAnchorTransform: {fileID: 0}
@@ -472,6 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b371d6f7c2c274b41a9d1f870c348624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
   attachRotationLerpDuration: 0.05
 --- !u!114 &4148331537623981866
 MonoBehaviour:
@@ -487,10 +493,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsMenuOpenedChannel: {fileID: 11400000, guid: de213238d34d9d344884110062ad3af9,
     type: 2}
+  hideSwordOnSettingsMenuOpened: 0
   swordBlade: {fileID: 2271229325352761043}
   swordBladeBroken: {fileID: 1228669505646611851}
   swordHandle: {fileID: 7222901909844408401}
   settingsMenuInteractor: {fileID: 0}
+  swordImpactSFX: []
 --- !u!65 &916774191
 BoxCollider:
   m_ObjectHideFlags: 0
