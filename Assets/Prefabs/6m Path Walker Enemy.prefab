@@ -128,7 +128,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9b59a4de5015c4e4a95122c9be9ccac8, type: 3}
   - {fileID: 8300000, guid: d754b97cd60b2c64c9b6c512f1371f80, type: 3}
   - {fileID: 8300000, guid: c25f7d10f6770114c9e42ab7c6239436, type: 3}
-  despawnDelay: 1
+  despawnDelay: 60
   isDead: 0
   isDespawned: 0
   isAttacking: 0

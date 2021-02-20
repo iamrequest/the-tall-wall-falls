@@ -83,6 +83,7 @@ public class Enemy : MonoBehaviour {
 
             pathWalker.isWalkingPath = false;
             healthManager.SetRagdollEnabled(true);
+            enemySpawner.OnEnemyKilled(this);
 
             audioSource.PlayOneShot(deathSFX[Random.Range(0, deathSFX.Count)]);
         }

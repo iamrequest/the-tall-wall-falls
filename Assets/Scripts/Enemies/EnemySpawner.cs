@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour {
 
     public GameObject enemyPrefab;
     public Gate gate;
-    public List<Enemy> enemies;
+    public List<Enemy> aliveEnemies, deadEnemies;
     public List<PathNode> startNodes;
 
     [Range(0f, 10f)]
@@ -26,6 +26,8 @@ public class EnemySpawner : MonoBehaviour {
 
     [Range(0, 50)]
     public int maxNumEnemies;
+    [Range(0, 10)]
+    public int maxNumDeadEnemies = 10;
 
     [Range(10, 300)]
     public float medianPathWalkTime;
@@ -67,7 +69,7 @@ public class EnemySpawner : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (isSpawning && enemies.Count < maxNumEnemies) {
+        if (isSpawning && aliveEnemies.Count < maxNumEnemies) {
             timeSinceLastSpawn += Time.deltaTime;
 
             if (timeSinceLastSpawn > spawnRatePerMinute * 60) {
@@ -92,7 +94,7 @@ public class EnemySpawner : MonoBehaviour {
     public void SpawnEnemy() {
         GameObject enemyGameobject = Instantiate(enemyPrefab);
         Enemy enemy = enemyGameobject.GetComponent<Enemy>();
-        enemies.Add(enemy);
+        aliveEnemies.Add(enemy);
 
         // -- Configure enemy
         enemy.enemySpawner = this;
@@ -106,20 +108,38 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     public void DespawnEnemy(Enemy enemy) {
-        enemies.Remove(enemy);
+        aliveEnemies.Remove(enemy);
+        deadEnemies.Remove(enemy);
         Destroy(enemy.gameObject);
     }
 
     public void DespawnAllEnemies() {
-        for (int i = 0; i < enemies.Count; i++) {
-            Destroy(enemies[i].gameObject);
+        for (int i = 0; i < aliveEnemies.Count; i++) {
+            Destroy(aliveEnemies[i].gameObject);
+        }
+        for (int i = 0; i < deadEnemies.Count; i++) {
+            Destroy(deadEnemies[i].gameObject);
         }
 
-        enemies.Clear();
+        aliveEnemies.Clear();
+        deadEnemies.Clear();
     }
     public void KillAllEnemies() {
-        foreach (Enemy enemy in enemies) {
-            enemy.Kill();
+        // Gotta do this weird loop + indexing because I'm modifying the list in spaghetti fashion
+        int numEnemies = aliveEnemies.Count;
+        for (int i = 0; i < numEnemies; i++) {
+            aliveEnemies[aliveEnemies.Count - 1].Kill();
+        }
+        aliveEnemies.Clear();
+    }
+
+    public void OnEnemyKilled(Enemy enemy) {
+        aliveEnemies.Remove(enemy);
+        deadEnemies.Add(enemy);
+
+        // If we have too many dead enemies, remove the oldest one
+        if (deadEnemies.Count > maxNumDeadEnemies) {
+            DespawnEnemy(deadEnemies[0]);
         }
     }
 
