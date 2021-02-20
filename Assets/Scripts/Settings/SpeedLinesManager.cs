@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.VFX;
 
 /// <summary>
-/// TODO: Fix enabled/disable
 /// TODO: Rotate to match locomotion dir
 /// </summary>
 public class SpeedLinesManager : MonoBehaviour {
@@ -16,7 +15,6 @@ public class SpeedLinesManager : MonoBehaviour {
 
     public Rigidbody rb;
     public float minSpeed;
-    private float elapsedTime;
     public float lerpSpeeed = 0.5f;
     private Quaternion targetRotation;
 
@@ -34,15 +32,13 @@ public class SpeedLinesManager : MonoBehaviour {
     private void UpdateSpeedLines() {
         speedLinesEnabled = !speedLinesEnabled;
         vfx.Stop();
-        elapsedTime = 0f;
     }
 
     private void FixedUpdate() {
         if (speedLinesEnabled) {
             if (rb.velocity.magnitude > minSpeed) {
                 // Rotate the VFX so that the speed lines move away from the rigidbody's velocity
-                // TODO: Test this
-                targetRotation = Quaternion.LookRotation(transform.position + rb.velocity, Vector3.up);
+                targetRotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, lerpSpeeed);
 
                 if (!isPlaying) {

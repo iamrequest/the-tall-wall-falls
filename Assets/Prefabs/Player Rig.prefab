@@ -1792,7 +1792,7 @@ MonoBehaviour:
     type: 2}
   rb: {fileID: 1877235487}
   minSpeed: 0.1
-  lerpSpeeed: 0.5
+  lerpSpeeed: 0.05
 --- !u!82 &3187528552800437474
 AudioSource:
   m_ObjectHideFlags: 0
