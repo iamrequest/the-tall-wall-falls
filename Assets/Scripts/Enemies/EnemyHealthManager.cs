@@ -29,6 +29,6 @@ public class EnemyHealthManager : MonoBehaviour {
 
     // Optional: Make damage more interesting than a 1-shot kill. 
     public void TakeDamage() {
-        enemy.Kill();
+        enemy.Kill(true);
     }
 }

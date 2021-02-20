@@ -2489,6 +2489,8 @@ MonoBehaviour:
     type: 2}
   speedLinesChangedChannel: {fileID: 11400000, guid: cb2ad97c78b39b243a060e3a15884ad5,
     type: 2}
+  enemyKillsChangedChannel: {fileID: 11400000, guid: e9a08b1e17d3219438bd3c04f5497a12,
+    type: 2}
   swordAngleChangedChannel: {fileID: 11400000, guid: 327d0755a23f6eb42b649d3431a17a86,
     type: 2}
   grappleAngleChangedChannel: {fileID: 11400000, guid: 82683063ede58854aace9705af991c4c,
@@ -2528,6 +2530,8 @@ MonoBehaviour:
   gameStartStopButtonText: {fileID: 1661907370540180185}
   gameStartedColor: {r: 0.8396226, g: 0.37624598, b: 0.37624598, a: 1}
   gameStoppedColor: {r: 0.54901963, g: 0.81960785, b: 0.34509805, a: 1}
+  numKillsText: {fileID: 1705535951427496857}
+  timeAliveText: {fileID: 630605283873347655}
 --- !u!114 &2158562995314432718
 MonoBehaviour:
   m_ObjectHideFlags: 0

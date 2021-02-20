@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour {
     private AudioSource audioSource;
+    public VoidEventChannel enemyKilledEventChannel;
 
     [HideInInspector]
     public EnemyPathWalker pathWalker;
@@ -76,7 +77,7 @@ public class Enemy : MonoBehaviour {
         enemySpawner.DespawnEnemy(this);
     }
 
-    public void Kill() {
+    public void Kill(bool wasKilledByPlayer) {
         if (!isDead) {
             elapsedDespawnTime = 0f;
             isDead = true;
@@ -84,6 +85,10 @@ public class Enemy : MonoBehaviour {
             pathWalker.isWalkingPath = false;
             healthManager.SetRagdollEnabled(true);
             enemySpawner.OnEnemyKilled(this);
+
+            if (wasKilledByPlayer) {
+                enemyKilledEventChannel.RaiseEvent();
+            }
 
             audioSource.PlayOneShot(deathSFX[Random.Range(0, deathSFX.Count)]);
         }

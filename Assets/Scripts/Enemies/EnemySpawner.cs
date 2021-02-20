@@ -128,7 +128,7 @@ public class EnemySpawner : MonoBehaviour {
         // Gotta do this weird loop + indexing because I'm modifying the list in spaghetti fashion
         int numEnemies = aliveEnemies.Count;
         for (int i = 0; i < numEnemies; i++) {
-            aliveEnemies[aliveEnemies.Count - 1].Kill();
+            aliveEnemies[aliveEnemies.Count - 1].Kill(false);
         }
         aliveEnemies.Clear();
     }

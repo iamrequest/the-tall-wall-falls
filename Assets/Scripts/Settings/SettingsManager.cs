@@ -13,6 +13,7 @@ public class SettingsManager : MonoBehaviour {
     public VoidEventChannel settingsUpdatedChannel;
     public VoidEventChannel vignetteChangedChannel;
     public VoidEventChannel speedLinesChangedChannel;
+    public VoidEventChannel enemyKillsChangedChannel;
     public SliderEventChannel swordAngleChangedChannel;
     public SliderEventChannel grappleAngleChangedChannel;
     public SliderEventChannel vignetteStrengthChangedChannel;
@@ -21,7 +22,8 @@ public class SettingsManager : MonoBehaviour {
     public GameStateEventChannel gameStateChangedChannel;
 
     [Header("Sprites")]
-    public Sprite spriteEnabled, spriteDisabled;
+    public Sprite spriteEnabled;
+    public Sprite spriteDisabled;
     public Sprite spritePlay, spriteStop;
     public Sprite spriteHMD, spriteLeftHand, spriteRightHand;
 
@@ -73,8 +75,14 @@ public class SettingsManager : MonoBehaviour {
     public Image gameStartStopButtonBG;
     public TextMeshProUGUI gameStateText, gameStartStopButtonText;
     public Color gameStartedColor, gameStoppedColor;
-    public GameStateEventChannel.GameState gameState { get; private set;}
+    public GameStateEventChannel.GameState gameState { get; private set; }
 
+
+    public TextMeshProUGUI numKillsText;
+    public int numEnemiesKilled { get; private set; }
+
+    public TextMeshProUGUI timeAliveText;
+    public float timeAlive { get; private set; }
 
     private void Start() {
         swordAngleSlider.ResetSlider();
@@ -83,6 +91,14 @@ public class SettingsManager : MonoBehaviour {
         ropePullSpeedSlider.ResetSlider();
 
         UpdateGUI();
+    }
+
+    private void Update() {
+        if (gameState == GameStateEventChannel.GameState.STARTED) {
+            // Using in-game time, rather than unscaled time
+            timeAlive += Time.deltaTime;
+        }
+        UpdateTimeAliveText();
     }
 
     private void OnEnable() {
@@ -95,6 +111,7 @@ public class SettingsManager : MonoBehaviour {
         ropePullSpeedChangedChannel.onEventRaised += GetRopePullSpeed;
         steeringTransformChangedChannel.onEventRaised += GetSteeringTransform;
         gameStateChangedChannel.onEventRaised += UpdateGameState;
+        enemyKillsChangedChannel.onEventRaised += UpdateEnemiesKilled;
     }
 
     private void OnDisable() {
@@ -107,6 +124,7 @@ public class SettingsManager : MonoBehaviour {
         ropePullSpeedChangedChannel.onEventRaised -= GetRopePullSpeed;
         steeringTransformChangedChannel.onEventRaised -= GetSteeringTransform;
         gameStateChangedChannel.onEventRaised -= UpdateGameState;
+        enemyKillsChangedChannel.onEventRaised -= UpdateEnemiesKilled;
     }
 
     public void UpdateGUI() {
@@ -185,6 +203,16 @@ public class SettingsManager : MonoBehaviour {
                 Debug.LogWarning("Unexpected game state received: " + gameState);
                 break;
         }
+
+        numKillsText.text = "Kills - " + numEnemiesKilled;
+
+        // TODO: Gate health
+    }
+
+    private void UpdateTimeAliveText() {
+        // https://forum.unity.com/threads/convert-float-to-time-minutes-and-seconds.676414/
+        System.TimeSpan ts = System.TimeSpan.FromSeconds(timeAlive);
+        timeAliveText.text = "Time Alive - " + string.Format("{0:00}:{1:00}", ts.TotalMinutes, ts.Seconds);
     }
 
 
@@ -214,6 +242,11 @@ public class SettingsManager : MonoBehaviour {
 
     public void UpdateGameState(GameStateEventChannel.GameState gameState) {
         this.gameState = gameState;
+
+        if (gameState == GameStateEventChannel.GameState.STARTED) {
+            numEnemiesKilled = 0;
+            timeAlive = 0f;
+        }
     }
     public void ToggleGameState() {
         if (gameState == GameStateEventChannel.GameState.STARTED) {
@@ -223,5 +256,9 @@ public class SettingsManager : MonoBehaviour {
         }
 
         this.gameStateChangedChannel.RaiseEvent(this.gameState);
+    }
+
+    public void UpdateEnemiesKilled() {
+        numEnemiesKilled++;
     }
 }
