@@ -21,7 +21,9 @@ public class SettingsMenuInteractor : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.TryGetComponent(out SettingsMenuSlider slider)) {
-            hoveredSlider = slider;
+            if (slider.isActiveAndEnabled) {
+                hoveredSlider = slider;
+            }
         }
     }
 
@@ -58,7 +60,7 @@ public class SettingsMenuInteractor : MonoBehaviour {
         slider.interactor = this;
     }
 
-    private void ReleaseSliderGrab() {
+    public void ReleaseSliderGrab() {
         if (grabbedSlider) {
             grabbedSlider.Release();
         }

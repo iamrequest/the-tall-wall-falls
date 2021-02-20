@@ -484,8 +484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fa5838ae1d322a4ab8af5bc6640274d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNode: {fileID: 438778404429257228}
   selectedPathSpline: {fileID: 438778403686846801}
+  startNode: {fileID: 438778404429257228}
   selectedPath:
   - {fileID: 438778404429257228}
   - {fileID: 438778404869032074}
@@ -494,7 +494,8 @@ MonoBehaviour:
   - {fileID: 438778404371822006}
   - {fileID: 438778405080079680}
   controlPointMode: 0
-  t: 0
+  tempAppendedTransform: {fileID: 0}
+  finalNodePathGameObject: {fileID: 0}
 --- !u!114 &438778403686846801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,8 +541,15 @@ MonoBehaviour:
   <gameState>k__BackingField: 0
   gameStateEventChannel: {fileID: 11400000, guid: 6dbc3d5b4358ec54c9560f3cd4c6ebf7,
     type: 2}
+  spawnRateEventChannel: {fileID: 11400000, guid: 7d6d50d79d365df40844d57a1855399d,
+    type: 2}
+  numEnemiesEventChannel: {fileID: 11400000, guid: 5f4d0403090faba4fa60590d1291e4f3,
+    type: 2}
+  enemySpeedEventChannel: {fileID: 11400000, guid: 4202164cee30d594ebf40622da12328e,
+    type: 2}
   enemyPrefab: {fileID: 5970196569098087086, guid: d3f7ceda9cd9f0c41aa224edfc9e4edd,
     type: 3}
+  gate: {fileID: 0}
   enemies: []
   startNodes:
   - {fileID: 438778404429257228}
@@ -551,8 +559,8 @@ MonoBehaviour:
   intialSpawnDelay: 1
   isSpawning: 0
   maxNumEnemies: 5
-  medianPathWalkTime: 0
-  pathWalkTimeVariance: 0
+  medianPathWalkTime: 18
+  pathWalkTimeVariancePercentage: 0
 --- !u!1 &438778403691504766
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,12 +51,23 @@ public class SettingsMenuSlider : MonoBehaviour {
 
     public void ResetSlider() {
         if (interactor == null) {
-            t = Mathf.Clamp01(Mathf.InverseLerp(minValue, maxValue, initialValue));
-
-            // Lerp to the desired spot, since the projected hand position can exist outside of the bounds of the two target transforms
-            transform.position = Vector3.Lerp(startTransform.position, endTransform.position, t);
-
-            SendUpdatesToEventChannel();
+            SetValue(initialValue);
         }
+    }
+
+    public void SetValue(float value) {
+        t = Mathf.Clamp01(Mathf.InverseLerp(minValue, maxValue, value));
+
+        // Lerp to the desired spot, since the projected hand position can exist outside of the bounds of the two target transforms
+        transform.position = Vector3.Lerp(startTransform.position, endTransform.position, t);
+
+        SendUpdatesToEventChannel();
+    }
+
+    public void OnDisable() {
+        if (interactor != null) {
+            interactor.ReleaseSliderGrab();
+        }
+        Release();
     }
 }

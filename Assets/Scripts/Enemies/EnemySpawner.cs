@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour {
     [field:SerializeField]
     public GameStateEventChannel.GameState gameState { get; private set; } = GameStateEventChannel.GameState.STOPPED;
     public GameStateEventChannel gameStateEventChannel;
+    public SliderEventChannel spawnRateEventChannel, numEnemiesEventChannel, enemySpeedEventChannel;
 
     public GameObject enemyPrefab;
     public Gate gate;
@@ -38,10 +39,16 @@ public class EnemySpawner : MonoBehaviour {
     }
     private void OnEnable() {
         gameStateEventChannel.onEventRaised += UpdateGameState;
+        spawnRateEventChannel.onEventRaised += SetSpawnRate;
+        numEnemiesEventChannel.onEventRaised += SetNumEnemies;
+        enemySpeedEventChannel.onEventRaised += SetEnemySpeed;
     }
 
     private void OnDisable() {
         gameStateEventChannel.onEventRaised -= UpdateGameState;
+        spawnRateEventChannel.onEventRaised -= SetSpawnRate;
+        numEnemiesEventChannel.onEventRaised -= SetNumEnemies;
+        enemySpeedEventChannel.onEventRaised -= SetEnemySpeed;
     }
 
 
@@ -114,5 +121,16 @@ public class EnemySpawner : MonoBehaviour {
         foreach (Enemy enemy in enemies) {
             enemy.Kill();
         }
+    }
+
+    // -- TODO: Update values
+    public void SetSpawnRate(float t, float value) {
+        spawnRatePerMinute = value;
+    }
+    public void SetNumEnemies(float t, float value) {
+        maxNumEnemies = Mathf.RoundToInt(value);
+    }
+    public void SetEnemySpeed(float t, float value) {
+        medianPathWalkTime = value;
     }
 }

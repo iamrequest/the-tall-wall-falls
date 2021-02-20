@@ -141,6 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9b6fdb917b16946b39f181d44e7c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgmIndexEventChannel: {fileID: 11400000, guid: 36ea4c38d6765254a81f272e54076720,
+    type: 2}
   songs:
   - {fileID: 8300000, guid: be18c5708c07ebb4596a5d391675671e, type: 3}
   - {fileID: 8300000, guid: 5bb0b07990fad0b46b755bc59753f69f, type: 3}

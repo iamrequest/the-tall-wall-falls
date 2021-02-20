@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class BGMManager : MonoBehaviour {
     private AudioSource audioSource;
+    public IntEventChannel bgmIndexEventChannel;
     public List<AudioClip> songs;
 
     [Range(0f, 1f)]
@@ -14,7 +15,17 @@ public class BGMManager : MonoBehaviour {
 
     private void Awake() {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    // Playing in start to make sure that everything is intialized first (eg: other event channels) 
+    private void Start() {
         PlaySong(initialSongIndex);
+    }
+    private void OnEnable() {
+        bgmIndexEventChannel.onEventRaised += PlaySong;
+    }
+    private void OnDisable() {
+        bgmIndexEventChannel.onEventRaised -= PlaySong;
     }
 
     private void Update() {
@@ -37,6 +48,9 @@ public class BGMManager : MonoBehaviour {
     }
 
     public void PlaySong(int index) {
+        // Cheap way to avoid stack overflow
+        if (index == currentSongIndex) return;
+
         if (songs.Count < 0) {
             Debug.LogError("Attempted to play BGM, but no songs are available");
             return;
@@ -52,6 +66,9 @@ public class BGMManager : MonoBehaviour {
         } else {
             audioSource.volume = songVolumes[currentSongIndex];
         }
+
+        // Notify the event channel
+        bgmIndexEventChannel.RaiseEvent(currentSongIndex);
 
         audioSource.Play();
     }
