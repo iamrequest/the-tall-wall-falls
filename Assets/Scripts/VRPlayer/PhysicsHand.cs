@@ -69,6 +69,7 @@ public class PhysicsHand : MonoBehaviour {
     private void OnCollisionExit(Collision collision) {
         touchCount = Mathf.Clamp(touchCount - 1, 0, 99999);
     }
+
     public void ResetTouchCount() {
         touchCount = 0;
     }
