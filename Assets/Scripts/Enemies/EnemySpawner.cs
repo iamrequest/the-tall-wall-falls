@@ -16,8 +16,9 @@ public class EnemySpawner : MonoBehaviour {
     public List<Enemy> aliveEnemies, deadEnemies;
     public List<PathNode> startNodes;
 
-    [Range(0f, 10f)]
-    public float spawnRatePerMinute;
+    [Range(0f, 500f)]
+    [Tooltip("Measured in seconds")]
+    public float spawnDelay;
     public float timeSinceLastSpawn;
 
     [Tooltip("Measured in seconds")]
@@ -72,7 +73,7 @@ public class EnemySpawner : MonoBehaviour {
         if (isSpawning && aliveEnemies.Count < maxNumEnemies) {
             timeSinceLastSpawn += Time.deltaTime;
 
-            if (timeSinceLastSpawn > spawnRatePerMinute * 60) {
+            if (timeSinceLastSpawn > spawnDelay) {
                 SpawnEnemy();
                 timeSinceLastSpawn = 0f;
             }
@@ -84,7 +85,7 @@ public class EnemySpawner : MonoBehaviour {
     public void StartSpawning() {
         DespawnAllEnemies();
         isSpawning = true;
-        timeSinceLastSpawn = Mathf.Clamp(spawnRatePerMinute * 60 - intialSpawnDelay, 0, spawnRatePerMinute * 60);
+        timeSinceLastSpawn = Mathf.Clamp(spawnDelay - intialSpawnDelay, 0, spawnDelay);
     }
 
     public void EndSpawning() {
@@ -145,7 +146,7 @@ public class EnemySpawner : MonoBehaviour {
 
     // -- TODO: Update values
     public void SetSpawnRate(float t, float value) {
-        spawnRatePerMinute = value;
+        spawnDelay = value;
     }
     public void SetNumEnemies(float t, float value) {
         maxNumEnemies = Mathf.RoundToInt(value);

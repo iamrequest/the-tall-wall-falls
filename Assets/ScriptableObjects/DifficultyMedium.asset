@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da1cdd16f5e8dd741b03d8754a6320c6, type: 3}
   m_Name: DifficultyMedium
   m_EditorClassIdentifier: 
-  spawnRate: 8
+  spawnRate: 9
   maxNumEnemies: 5
-  enemySpeed: 80
+  enemySpeed: 100

@@ -21,6 +21,9 @@ public class DifficultyManager : MonoBehaviour {
     public int selectedDifficultyIndex;
     public Color selectedColor, deselectedColor;
 
+    [Tooltip("This represents 100% enemy speed - the mean time in seconds that it takes for an enemy to walk the bigraph to the gate")]
+    public float medianEnemyWalkTime = 60f;
+
     public float spawnRateScaled { get; private set; }
     public float numEnemiesScaled { get; private set; }
     public float enemySpeedScaled { get; private set; }
@@ -77,10 +80,17 @@ public class DifficultyManager : MonoBehaviour {
         enemySpeedSlider.enabled = (gameState != GameStateEventChannel.GameState.STARTED);
 
 
-        // TODO: Update lerp values
-        spawnRateText.text = "Spawn Rate: " + (spawnRateScaled * 100).ToString("F0") + "%";
+        spawnRateText.text = "Spawn Rate: Every " + FormatTime(spawnRateScaled);
         maxNumEnemiesText.text = "Max Enemies: " + Mathf.RoundToInt(numEnemiesScaled);
-        enemySpeedText.text = "Enemy Speed: " + (enemySpeedScaled * 100).ToString("F0") + "%";
+
+        // TODO: Fix percentage calculation
+        //  90s should be 150%, not 90/30=300%
+        enemySpeedText.text = "Enemy Speed: " + ((medianEnemyWalkTime / enemySpeedScaled) * 100).ToString("F0") + "%";
+    }
+    private string FormatTime(float seconds) {
+        // https://forum.unity.com/threads/convert-float-to-time-minutes-and-seconds.676414/
+        System.TimeSpan ts = System.TimeSpan.FromSeconds(seconds);
+        return string.Format("{0:00}:{1:00}", ts.TotalMinutes, ts.Seconds);
     }
 
     public void SetDifficultyCustom() {
