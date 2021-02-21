@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 /// <summary>
 /// Config:
@@ -9,12 +10,14 @@ using UnityEngine;
 ///     
 /// TODO: Consider adding a physical gate
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class Gate : MonoBehaviour {
+    private Animator animator;
     public GameStateEventChannel.GameState gameState { get; private set; } = GameStateEventChannel.GameState.STOPPED;
     public GameStateEventChannel gameStateEventChannel;
     public SliderEventChannel gateHealthEventChannel;
+    public TextMeshProUGUI healthText;
 
-    public List<Enemy> attackingEnemies;
 
     [Tooltip("A random place in this area will be where the enemy will walk to in order to attack")]
     public Transform areaToAttack;
@@ -23,6 +26,10 @@ public class Gate : MonoBehaviour {
     public float health { get; private set; }
     public float maxHealth = 100f;
     public float damagePerEnemyPerSecond = 1f;
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+    }
 
     private void OnEnable() {
         gameStateEventChannel.onEventRaised += UpdateGameState;
@@ -35,12 +42,10 @@ public class Gate : MonoBehaviour {
 
     private void Update() {
         if (gameState == GameStateEventChannel.GameState.STARTED) {
-            health -= damagePerEnemyPerSecond * attackingEnemies.Count * Time.deltaTime;
+            // Update GUI
+            healthText.text = "Health: " + (health / maxHealth * 100f).ToString("F0") + "%";
 
-            if (attackingEnemies.Count > 0) {
-                gateHealthEventChannel.RaiseEvent(health / maxHealth, health);
-            }
-
+            // Check for game over
             if (health <= 0) {
                 gameStateEventChannel.RaiseEvent(GameStateEventChannel.GameState.GAME_OVER);
             }
@@ -49,11 +54,15 @@ public class Gate : MonoBehaviour {
 
     public void UpdateGameState(GameStateEventChannel.GameState gameState) {
         this.gameState = gameState;
-        attackingEnemies.Clear();
 
         if (gameState == GameStateEventChannel.GameState.STARTED) {
             health = maxHealth;
+            animator.SetTrigger("GameStarted");
             gateHealthEventChannel.RaiseEvent(health / maxHealth, health);
+        } else if (gameState == GameStateEventChannel.GameState.STOPPED) {
+            animator.SetTrigger("GameStopped");
+        } else {
+            animator.SetTrigger("GameOver");
         }
     }
 
@@ -69,5 +78,10 @@ public class Gate : MonoBehaviour {
         pos.y = 0f;
 
         return pos;
+    }
+
+    public void ApplyDamage(float damage) {
+        health -= damage;
+        gateHealthEventChannel.RaiseEvent(health / maxHealth, health);
     }
 }

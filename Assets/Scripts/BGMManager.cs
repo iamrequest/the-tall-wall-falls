@@ -12,9 +12,11 @@ public class BGMManager : MonoBehaviour {
     public List<float> songVolumes;
     public int initialSongIndex;
     public int currentSongIndex;
+    private float baseVolume;
 
     private void Awake() {
         audioSource = GetComponent<AudioSource>();
+        baseVolume = audioSource.volume;
     }
 
     // Playing in start to make sure that everything is intialized first (eg: other event channels) 
@@ -62,9 +64,9 @@ public class BGMManager : MonoBehaviour {
         // Set song volume
         if (songVolumes.Count - 1 < currentSongIndex) {
             Debug.LogError("No available volume for this song, defaulting to 1");
-            audioSource.volume = 1f;
+            audioSource.volume = baseVolume;
         } else {
-            audioSource.volume = songVolumes[currentSongIndex];
+            audioSource.volume = songVolumes[currentSongIndex] * baseVolume;
         }
 
         // Notify the event channel

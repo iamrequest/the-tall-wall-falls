@@ -30,6 +30,9 @@ public class Enemy : MonoBehaviour {
 
     public bool isDead, isDespawned, isAttacking;
 
+    [Range(1f, 10f)]
+    public float damagePerAttack;
+
 
     private void Update() {
         animator.speed = animationSpeed;
@@ -95,13 +98,18 @@ public class Enemy : MonoBehaviour {
     }
 
 
-    // TODO: Lerp into position?
     public void StartAttackingGate() {
         isAttacking = true;
-        gate.attackingEnemies.Add(this);
         animator.SetTrigger("isAttacking");
 
         animator.speed = 1f;
         animationSpeed = 1f;
+    }
+
+    /// <summary>
+    /// Called via animation event
+    /// </summary>
+    public void AttackGate() {
+        gate.ApplyDamage(damagePerAttack);
     }
 }
