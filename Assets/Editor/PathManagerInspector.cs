@@ -23,10 +23,14 @@ public class PathManagerInspector : Editor {
             EditorUtility.SetDirty(pathManager);
         }
 
-        if (GUILayout.Button("Append Position")) {
-            Undo.RecordObject(pathManager, "Append position");
-            pathManager.AppendNode(pathManager.tempAppendedTransform.position);
+        /*
+        Commenting out since I'm getting rid of tempGate
+        if (GUILayout.Button("Adjust Final Position")) {
+            Undo.RecordObject(pathManager, "Adjust Final Position");
+            pathManager.CalculatePathSpline();
+            pathManager.AdjustFinalPosition(pathManager.tempGate.GetAttackablePosition());
             EditorUtility.SetDirty(pathManager);
         }
+        */
     }
 }

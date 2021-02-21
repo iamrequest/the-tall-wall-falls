@@ -16,8 +16,6 @@ public class PathManager : MonoBehaviour {
     public PathNode startNode;
     public List<PathNode> selectedPath = new List<PathNode>();
     public BezierControlPointMode controlPointMode;
-    public Transform tempAppendedTransform;
-    public GameObject finalNodePathGameObject;
 
     // -- Debug
     private Gradient pathGradient = new Gradient();
@@ -61,32 +59,16 @@ public class PathManager : MonoBehaviour {
         }
     }
 
-    public void AppendNode(Vector3 position) {
-        // Create the new PathNode on a child gameobject to avoid clutter
-        DestroyImmediate(finalNodePathGameObject);
-        finalNodePathGameObject = new GameObject();
-        finalNodePathGameObject.transform.parent = transform;
+    /// <summary>
+    /// Call after generating the stitched spline
+    /// </summary>
+    /// <param name="position"></param>
+    public void AdjustFinalPosition(Vector3 position) {
+        // Cache the n-1'th control point, since that'll get altered when we change the final position
+        Vector3 tempControlPoint = selectedPathSpline.GetControlPoint(selectedPathSpline.numControlPoints - 2);
 
-        PathNode appendedNode = finalNodePathGameObject.AddComponent<PathNode>();
-        BezierSpline appendedSpline = finalNodePathGameObject.AddComponent<BezierSpline>();
-        Vector3 previousNodeToPosition = position - selectedPath[selectedPath.Count - 1].transform.position;
-        Vector3 thisToPosition = position - transform.position;
-
-        // Update end node markers
-        selectedPath[selectedPath.Count - 1].isEndNode = false;
-        appendedNode.isEndNode = true;
-
-        // Add the new node/spline
-        selectedPath[selectedPath.Count - 1].connectedNodes.Add(appendedNode);
-        selectedPath[selectedPath.Count - 1].connectedNodePaths.Add(appendedSpline);
-        selectedPath.Add(appendedNode);
-
-        // -- TODO: This is broken
-        appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 4, selectedPath[selectedPath.Count - 2].transform.position);
-        appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 1, position);
-
-        //appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 3, position - transform.position);
-        //appendedSpline.SetControlPoint(appendedSpline.numControlPoints - 2, position - transform.position);
+        selectedPathSpline.SetControlPoint(selectedPathSpline.numControlPoints - 1, position);
+        selectedPathSpline.SetControlPoint(selectedPathSpline.numControlPoints - 2, tempControlPoint);
     }
 
     /// <summary>

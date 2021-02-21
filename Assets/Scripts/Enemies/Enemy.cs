@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour {
         elapsedDespawnTime = 0f;
 
         model.SetActive(true);
-        pathWalker.Setup();
+        pathWalker.Setup(gate.GetAttackablePosition() - transform.position);
         healthManager.SetRagdollEnabled(false);
     }
 

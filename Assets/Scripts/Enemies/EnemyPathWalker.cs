@@ -33,9 +33,10 @@ public class EnemyPathWalker : MonoBehaviour {
     /// <summary>
     /// Call after the start node has been assigned
     /// </summary>
-    public void Setup() {
+    public void Setup(Vector3 finalPosition) {
         pathManager.GetRandomPath();
         pathManager.CalculatePathSpline();
+        pathManager.AdjustFinalPosition(finalPosition);
         targetTransform.position = pathManager.startNode.transform.position;
 
         // Look at the end node. Rough heuristic, will smooth out in a few frames

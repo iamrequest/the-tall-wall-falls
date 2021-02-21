@@ -56,4 +56,18 @@ public class Gate : MonoBehaviour {
             gateHealthEventChannel.RaiseEvent(health / maxHealth, health);
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>A world-space position that exists inside of areaToAttack</returns>
+    public Vector3 GetAttackablePosition() {
+        // TODO: I don't think this would work if I rotated areaToAttack
+        Vector3 pos = areaToAttack.position;
+        pos.x += Random.Range(-areaToAttack.localScale.x, areaToAttack.localScale.x) / 2;
+        pos.z += Random.Range(-areaToAttack.localScale.z, areaToAttack.localScale.z) / 2;
+        pos.y = 0f;
+
+        return pos;
+    }
 }
