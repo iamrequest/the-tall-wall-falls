@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class Enemy : MonoBehaviour {
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     public VoidEventChannel enemyKilledEventChannel;
 
     [HideInInspector]
@@ -53,7 +52,6 @@ public class Enemy : MonoBehaviour {
     private void Awake() {
         pathWalker = GetComponent<EnemyPathWalker>();
         healthManager = GetComponent<EnemyHealthManager>();
-        audioSource = GetComponent<AudioSource>();
     }
 
     public void Setup() {

@@ -8,7 +8,13 @@ using UnityEngine;
 /// https://forum.unity.com/threads/adding-events-to-an-animation.1000200/
 /// </summary>
 public class EnemyAttackDelegate : MonoBehaviour {
+    public AudioSource audioSource;
     private Enemy enemy;
+
+    public List<AudioClip> stepSFX;
+    public void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start() {
         enemy = GetComponentInParent<Enemy>();
@@ -19,5 +25,9 @@ public class EnemyAttackDelegate : MonoBehaviour {
 
     public void AttackGate() {
         enemy.gate.ApplyDamage(enemy.damagePerAttack);
+    }
+
+    public void PlayStepSFX() {
+        audioSource.PlayOneShot(stepSFX[Random.Range(0, stepSFX.Count)]);
     }
 }
