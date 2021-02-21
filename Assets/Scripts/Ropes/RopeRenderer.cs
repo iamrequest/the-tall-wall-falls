@@ -35,6 +35,10 @@ public class RopeRenderer : MonoBehaviour {
     private Vector3 controlPoint1, controlPoint2;
 
 
+    private void OnValidate() {
+        polyline = GetComponent<Polyline>();
+        bezierSpline = GetComponent<BezierSpline>();
+    }
     private void Awake() {
         polyline = GetComponent<Polyline>();
         bezierSpline = GetComponent<BezierSpline>();
@@ -52,12 +56,16 @@ public class RopeRenderer : MonoBehaviour {
 
     private void Update() {
         UpdateControlPoints();
+        UpdateRopeRender();
+    }
+
+    public void UpdateRopeRender() {
         UpdatePolyline();
         polyline.Color = ropeColor.Evaluate(ropeColorT);
     }
 
     // TODO: Is jitter related to offset time being a thing?
-    private void UpdateControlPoints() {
+    public void UpdateControlPoints() {
         // Find our basis vector
         Vector3 forward = Quaternion.Inverse(transform.rotation) * (projectile.position - transform.position);
         float totalLength = forward.magnitude;
