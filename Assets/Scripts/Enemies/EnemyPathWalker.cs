@@ -18,7 +18,7 @@ public class EnemyPathWalker : MonoBehaviour {
     [Tooltip("The target transform that will move along the path")]
     public Transform targetTransform;
 
-    [Range(0.1f, 120f)]
+    [Range(0.1f, 500f)]
     public float pathWalkDuration;
     private float elapsedPathWalkTime;
     private Vector3 previousPosition;

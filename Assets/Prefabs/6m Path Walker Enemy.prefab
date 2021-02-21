@@ -509,6 +509,7 @@ MonoBehaviour:
   isDespawned: 0
   isAttacking: 0
   damagePerAttack: 5
+  animationSpeedMultiplier: 2
 --- !u!114 &7708078699279104152
 MonoBehaviour:
   m_ObjectHideFlags: 0

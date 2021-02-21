@@ -32,6 +32,9 @@ public class Enemy : MonoBehaviour {
     [Range(1f, 10f)]
     public float damagePerAttack;
 
+    [Range(0f, 5f)]
+    public float animationSpeedMultiplier = 1f;
+
 
     private void Update() {
         animator.speed = animationSpeed;
@@ -48,6 +51,8 @@ public class Enemy : MonoBehaviour {
             // Rotate model to face the gate
             model.transform.rotation = Quaternion.Lerp(Quaternion.LookRotation(gate.transform.position - transform.position, Vector3.up), transform.rotation, pathWalker.turnSpeed);
         }
+
+        animator.speed = (animationSpeedMultiplier / pathWalker.pathWalkDuration * 100);
     }
     private void Awake() {
         pathWalker = GetComponent<EnemyPathWalker>();
