@@ -102,7 +102,7 @@ I've been working with the Visual Effect Graph, and the Shader Graph lately. If 
 
 ## Assets and Third Party Credits
 
-###Project Settings:
+### Project Settings:
   * Unity 2019.4.5f1
   * Universal RP (7.3.1)
   * SteamVR 2.7.2 (sdk 1.14.15)
@@ -112,7 +112,7 @@ I've been working with the Visual Effect Graph, and the Shader Graph lately. If 
   * Visual Effect Graph (7.3.1)
   
 
-###Third Part Assets:
+### Third Party Assets:
 
 <table>
 	<tbody><tr>
