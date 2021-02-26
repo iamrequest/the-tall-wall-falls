@@ -69,6 +69,10 @@ public class SwordManager : MonoBehaviour {
         if (hideSwordOnSettingsMenuOpened) {
             SetSwordEnabled(!isSettingsMenuOpen);
         }
+
+        // This is a hacky workaround to fix a bug where the physics hand touch count gets out of sync when the settings menu gets opened/closed
+        //  This is a problem with SetActive() happening, and PhysicsHand.OnCollisionExit() not happening
+        physicsHand.ResetTouchCount();
     }
 
     /// <summary>
@@ -84,10 +88,6 @@ public class SwordManager : MonoBehaviour {
             swordBladeBroken.SetActive(false);
         }
         swordHandle.SetActive(isSwordEnabled);
-
-        // This is a hacky workaround to fix a bug where the physics hand touch count gets out of sync when the settings menu gets opened/closed
-        //  This is a problem with SetActive() happening, and PhysicsHand.OnCollisionExit() not happening
-        physicsHand.ResetTouchCount();
 
         ropeProjectileManager.enabled = isSwordEnabled;
 
