@@ -15,6 +15,18 @@ public class SettingsMenuSlider : MonoBehaviour {
     public float minValue, maxValue, initialValue;
     public float t;
 
+    private void OnEnable() {
+        sliderEventChannel.onEventRaised += UpdateLerpPositionFromEvent;
+    }
+
+
+    public void OnDisable() {
+        if (interactor != null) {
+            interactor.ReleaseSliderGrab();
+        }
+        Release();
+        sliderEventChannel.onEventRaised -= UpdateLerpPositionFromEvent;
+    }
 
     private void OnDrawGizmosSelected() {
         Gizmos.DrawWireSphere(startTransform.position, .05f);
@@ -51,23 +63,25 @@ public class SettingsMenuSlider : MonoBehaviour {
 
     public void ResetSlider() {
         if (interactor == null) {
-            SetValue(initialValue);
+            SetValue(initialValue, true);
         }
     }
 
-    public void SetValue(float value) {
-        t = Mathf.Clamp01(Mathf.InverseLerp(minValue, maxValue, value));
+    public void SetValue(float value, bool updateEventChannel) {
+        t = Mathfs.Remap(minValue, maxValue, 0f, 1f, value);
 
         // Lerp to the desired spot, since the projected hand position can exist outside of the bounds of the two target transforms
         transform.position = Vector3.Lerp(startTransform.position, endTransform.position, t);
 
-        SendUpdatesToEventChannel();
+        if (updateEventChannel) {
+            SendUpdatesToEventChannel();
+        }
     }
 
-    public void OnDisable() {
-        if (interactor != null) {
-            interactor.ReleaseSliderGrab();
+
+    private void UpdateLerpPositionFromEvent(float t, float value) {
+        if (interactor == null) {
+            SetValue(value, false);
         }
-        Release();
     }
 }

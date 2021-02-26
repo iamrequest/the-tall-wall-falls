@@ -3845,6 +3845,7 @@ GameObject:
   - component: {fileID: 2158562996427028626}
   - component: {fileID: 2158562996427028627}
   - component: {fileID: 2158562996427028628}
+  - component: {fileID: 6227953308154907695}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -3938,6 +3939,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!65 &6227953308154907695
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2158562996427028630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.015831, y: 2.6456149, z: 0.08374643}
+  m_Center: {x: 0.000001390775, y: -0.078176655, z: 0.076354526}
 --- !u!1 &2158562996768012628
 GameObject:
   m_ObjectHideFlags: 0

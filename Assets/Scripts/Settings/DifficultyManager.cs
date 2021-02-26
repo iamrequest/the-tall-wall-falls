@@ -103,9 +103,9 @@ public class DifficultyManager : MonoBehaviour {
             Debug.LogError("Invalid difficulty selected: " + selectedDifficultyIndex);
         }
 
-        spawnRateSlider.SetValue(difficultyPrefabs[difficultyIndex].spawnRate);
-        numEnemiesSlider.SetValue(difficultyPrefabs[difficultyIndex].maxNumEnemies);
-        enemySpeedSlider.SetValue(difficultyPrefabs[difficultyIndex].enemySpeed);
+        spawnRateSlider.SetValue(difficultyPrefabs[difficultyIndex].spawnRate, true);
+        numEnemiesSlider.SetValue(difficultyPrefabs[difficultyIndex].maxNumEnemies, true);
+        enemySpeedSlider.SetValue(difficultyPrefabs[difficultyIndex].enemySpeed, true);
 
         selectedDifficultyIndex = difficultyIndex;
 
